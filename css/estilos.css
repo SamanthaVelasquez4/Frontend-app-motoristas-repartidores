@@ -2,3 +2,43 @@
 body{
     background-image: url('../img/background.jpeg');
 }
+
+header{
+    height: 3rem;
+    background-color: black;
+}
+
+footer{
+    height: 3rem;
+    background-color: black;
+    position: absolute;
+    bottom: 0; 
+    width: 100%;
+}
+
+.logo img{
+    width: 60%;
+}
+
+.login-formulario{
+    background-color: black;
+    color: #fd8d07;
+}
+
+.anchor-olvidar-contrasena{
+    color: #fd8d07;
+    font-size: 0.8rem;
+
+}
+
+.anchor-ingresar{
+    background-color: #fd8d07;
+    height: 2rem;
+    width: 50%;
+    cursor: pointer;
+}
+
+.anchor-ingresar a{
+    color: black;
+    text-decoration: none;
+}
