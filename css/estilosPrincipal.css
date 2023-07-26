@@ -1,10 +1,55 @@
 body{
     background-image: url('../img/background.jpeg');
+    font-family: 'Ubuntu', sans-serif;
 }
 
 header{
-    height: 4rem;
+    height: 3rem;
     background-color: black;
+    color: #fd8d07;
+    width: 100%;
+    padding: 5px 0;
+}
+
+.row, .col{
+    margin: 0;
+}
+
+.logo-sin-fondo img{
+    width: 50%;
+}
+
+.separador{
+    height: 0.3rem;
+    border-radius: 10px;
+    width: 95%;
+    background-color: black;
+}
+
+.navegacion .col{
+    background-color: black;
+    color:#fd8d07;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.active{
+    background-color: #fd8d07 !important;
+    color: black !important;
+}
+
+.triangulos .col{
+    color: #fd8d07;
+}
+
+.renderizar-pedidos{
+    height: 22rem;
+    background-color: black;
+}
+
+.renderizar-pedidos .row{
+    height: 3rem;
+    background-color: white;
 }
 
 footer{
