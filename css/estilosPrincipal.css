@@ -1,0 +1,16 @@
+body{
+    background-image: url('../img/background.jpeg');
+}
+
+header{
+    height: 4rem;
+    background-color: black;
+}
+
+footer{
+    height: 3rem;
+    background-color: black;
+    position: absolute;
+    bottom: 0; 
+    width: 100%;
+}
