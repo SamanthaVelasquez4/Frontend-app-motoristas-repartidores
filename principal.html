@@ -14,14 +14,14 @@
 <body>
     <header class="container text-center fs-1">
         <div class="row">
-            <div class="col">
+            <div class="col" data-bs-toggle="modal" data-bs-target="#modalUsuario">
                 <i class="fa-solid fa-user"></i>
             </div>
-            <div class="col">
+            <div class="col" data-bs-toggle="modal" data-bs-target="#modalMensajes">
                 <i class="fa-solid fa-envelope"></i>
             </div>
             <div class="col">
-                <i class="fa-solid fa-right-from-bracket"></i>
+                <a href="index.html" style="color: #fd8d07;"><i class="fa-solid fa-right-from-bracket"></i></a>
             </div>
         </div>
     </header>
@@ -32,13 +32,13 @@
 
     <div class="navegacion container text-center mt-4 fw-medium ">
         <div class="row">
-            <div class="col me-2 ms-2 active" onclick="visualizarPedidos();" id="btn-pedidos">Pedidos</div>
-            <div class="col me-2 ms-2" onclick="visualizarTomados();" id="btn-tomados">Tomados</div>
-            <div class="col me-2 ms-2" onclick="visualizarEntregas();" id="btn-entregados">Entregados</div>
+            <div class="col me-2 ms-2 active btn-default" onclick="visualizarPedidos();" id="btn-pedidos">Pedidos</div>
+            <div class="col me-2 ms-2 btn-default" onclick="visualizarTomados();" id="btn-tomados">Tomados</div>
+            <div class="col me-2 ms-2 btn-default" onclick="visualizarEntregas();" id="btn-entregados">Entregados</div>
         </div>
     </div>
 
-    <div class="triangulos container text-center fs-1">
+    <div class="triangulos container text-center">
         <div class="row">
             <div class="col" id="triangulo-pedidos"><i class="fa-solid fa-caret-down"></i></div>
             <div class="col" id="triangulo-tomados"></div>
@@ -53,7 +53,7 @@
                 <img src="img/producto.png" alt="">
             </div>
             <div class="col-8 grid">
-                <div class="row text-center">
+                <div class="row text-center" data-bs-toggle="modal" data-bs-target="#modalInfoProducto">
                     <p class="fw-bold">Pedido #1</p>
                     <p class="fw-bold nombre">Maria Martinez</p>
                     <p class="telefono">2598-9852</p>
@@ -61,7 +61,7 @@
                     <p class="fst-italic direccion">Col. Hato de enmedio, casa #33, bloque 3</p>
                 </div>
                 <div class="text-end">
-                    <button type="button" class="btn-pedidos mt-2">Tomar Pedido</button>
+                    <button type="button" class="btn-default mt-2" data-bs-toggle="modal" data-bs-target="#modalConfirmarPedido">Tomar Pedido</button>
                 </div> 
             </div>
         </div>
@@ -78,7 +78,7 @@
                     <p class="fst-italic direccion">Col. Hato de enmedio, casa #33, bloque 3</p>
                 </div>
                 <div class="text-end">
-                    <button type="button" class="btn-pedidos mt-2">Tomar Pedido</button>
+                    <button type="button" class="btn-default mt-2">Tomar Pedido</button>
                 </div> 
             </div>
         </div>
@@ -95,14 +95,14 @@
                     <p class="fst-italic direccion">Col. Hato de enmedio, casa #33, bloque 3</p>
                 </div>
                 <div class="text-end">
-                    <button type="button" class="btn-pedidos mt-2">Tomar Pedido</button>
+                    <button type="button" class="btn-default mt-2">Tomar Pedido</button>
                 </div> 
             </div>
         </div>
       </div>
 
       <div class="container pt-3 ps-2 pe-2" id="pagina-tomados">
-        <div class="row rounded-2 mb-3 pt-2 pb-2">
+        <div class="row rounded-2 mb-3 pt-2 pb-2" data-bs-toggle="modal" data-bs-target="#modalInfoProducto">
             <div class="col-4 centrar-div"> 
                 <img src="img/producto.png" alt="">
             </div>
@@ -115,13 +115,13 @@
                     <p class="fst-italic direccion">Col. Hato de enmedio, casa #33, bloque 3</p>
                 </div>
                 <div class="text-end">
-                    <button type="button" class="btn-pedidos mt-2">Estado</button>
+                    <button type="button" class="btn-default mt-2" data-bs-toggle="modal" data-bs-target="#modalEstadoPedido">Estado</button>
                 </div> 
             </div>
         </div>
       </div>
       <div class="container pt-3 ps-2 pe-2" id="pagina-entregas">
-        <div class="row rounded-2 mb-3 pt-2 pb-2">
+        <div class="row rounded-2 mb-3 pt-2 pb-2" data-bs-toggle="modal" data-bs-target="#modalInfoProducto">
             <div class="col-4 centrar-div"> 
                 <img src="img/producto2.jpg" alt="">
             </div>
@@ -145,6 +145,321 @@
       </div>
     </div>
     <footer></footer>
+
+    <!-- Modales -->
+    <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+            <h1 class="modal-title fs-3" id="">Perfil</h1>
+            </div>
+            <div class="modal-body">
+            <div class="container-fluid">
+                <div class="row text-center">
+                    <div class="col">
+                        <img src="img/usuario.png" alt="Imagen Usuario" srcset="" class="img-usuario">
+                    </div>
+                </div>
+                <div class="row text-center fs-5">
+                    <div id="modal-calificacion">
+                        <i class="fa-solid fa-star" style="color: #fd8d07;"></i>
+                        <i class="fa-solid fa-star" style="color: #fd8d07;"></i>
+                        <i class="fa-solid fa-star" style="color: #fd8d07;"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div style="color: white;">
+                        <p class="fw-bold">Dorian Contreras</p>
+                        <p>Usuario</p>
+                        <p>8907-8709</p>
+                        <p>Pedidos entregados: 8</p>
+                        <p>Ganancias: 70 lps</p>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="modal-footer centrar-div">
+            <button type="button" class="btn-default" data-bs-target="#modalCambiosUsuario" data-bs-toggle="modal">Cambiar Contraseña</button>
+            <button type="button" class="btn-close1" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalCambiosUsuario" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-3" id="">Cambiar contraseña</h1>
+        </div>
+        <div class="modal-body">
+            <input type="password" placeholder="Introduzca contraseña actual" class="mb-2 form-control text-center fw-medium">
+            <input type="password" placeholder="Nueva contraseña" class="mb-2 mt-4 form-control text-center fw-medium">
+            <input type="password" placeholder="Verificar nueva contraseña" class="mb-2 form-control text-center fw-medium">
+        </div>
+        <div class="modal-footer centrar-div">
+            <button class="btn-close1" data-bs-target="#modalUsuario" data-bs-toggle="modal">Cancelar</button>
+            <button class="btn-default">Guardar cambios</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="modal fade" id="modalMensajes" tabindex="-1" aria-labelledby="modalMensajesLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h1 class="modal-title fs-3" id="modalMensajesLabel">Mensajes</h1>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+        <div class="row p-2 mt-2">
+            <div class="col cuerpo-mensaje rounded-3">
+                <p class="fw-bold text-center mt-2">¡Se le ha asignado un nuevo pedido, pedido#7!</p>
+                <p class="mb-2">Por favor revise su apartado de tomados.</p>
+                <div class="row div-flex-end fs-5" >
+                    <div class="col-2" style="color: green;"><i class="fa-solid fa-check"></i></div>
+                    <div class="col-2" style="color: red;"><i class="fa-solid fa-trash"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row p-2 mt-2">
+            <div class="col cuerpo-mensaje rounded-3">
+                <p class="fw-bold text-center mt-2">¡Se le ha asignado un nuevo pedido, pedido#7!</p>
+                <p class="mb-2">Por favor revise su apartado de tomados.</p>
+                <div class="row div-flex-end fs-5" >
+                    <div class="col-2" style="color: green;"><i class="fa-solid fa-check"></i></div>
+                    <div class="col-2" style="color: red;"><i class="fa-solid fa-trash"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row p-2 mt-2">
+            <div class="col cuerpo-mensaje rounded-3">
+                <p class="fw-bold text-center mt-2">¡Se le ha asignado un nuevo pedido, pedido#7!</p>
+                <p class="mb-2">Por favor revise su apartado de tomados.</p>
+                <div class="row div-flex-end fs-5" >
+                    <div class="col-2" style="color: green;"><i class="fa-solid fa-check"></i></div>
+                    <div class="col-2" style="color: red;"><i class="fa-solid fa-trash"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row p-2 mt-2">
+            <div class="col cuerpo-mensaje rounded-3">
+                <p class="fw-bold text-center mt-2">¡Se le ha asignado un nuevo pedido, pedido#7!</p>
+                <p class="mb-2">Por favor revise su apartado de tomados.</p>
+                <div class="row div-flex-end fs-5" >
+                    <div class="col-2" style="color: green;"><i class="fa-solid fa-check"></i></div>
+                    <div class="col-2" style="color: red;"><i class="fa-solid fa-trash"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row p-2 mt-2">
+            <div class="col cuerpo-mensaje rounded-3">
+                <p class="fw-bold text-center mt-2">¡Se le ha asignado un nuevo pedido, pedido#7!</p>
+                <p class="mb-2">Por favor revise su apartado de tomados.</p>
+                <div class="row div-flex-end" >
+                    <div class="col-2" style="color: green;"><i class="fa-solid fa-check"></i></div>
+                    <div class="col-2" style="color: red;"><i class="fa-solid fa-trash"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row p-2 mt-2">
+            <div class="col cuerpo-mensaje rounded-3">
+                <p class="fw-bold text-center mt-2">¡Se le ha asignado un nuevo pedido, pedido#7!</p>
+                <p class="mb-2">Por favor revise su apartado de tomados.</p>
+                <div class="row div-flex-end fs-5" >
+                    <div class="col-2" style="color: green;"><i class="fa-solid fa-check"></i></div>
+                    <div class="col-2" style="color: red;"><i class="fa-solid fa-trash"></i></div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn-close1" data-bs-dismiss="modal">Cerrar</button>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="modal fade" id="modalConfirmarPedido" tabindex="-1" aria-labelledby="modalConfirmarPedidoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-3" id="modalConfirmarPedidoLabel">Confirmación de pedido</h1>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+            <div class="row text-center"  style="color: white;">
+                <p class="fs-5 fw-bold">¿Esta seguro que desea realizar este pedido?</p>
+                <p style="font-size: 1rem;">Recuerde que puede ver los detalles del pedido dando clic sobre el mismo</p>
+            </div>
+            </div>
+        </div>
+        <div class="modal-footer centrar-div">
+            <button type="button" class="btn-close1" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn-default">Confirmar</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="modal fade" id="modalInfoProducto" tabindex="-1" aria-labelledby="modalInfoProductoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-3" id="modalInfoProductoLabel">Informacion Pedido</h1>
+        </div>
+        <div class="modal-body text-center">
+            <p class="mt-2 fw-bold titulo">Pedido #1</p>
+            <hr class="m-2">
+            <div>
+            <p class="fw-bold titulo">Informacion cliente</p>
+            <p>Nombre: Maria Martinez</p>
+            <p>Telefono: 3514-34186</p>
+            <p>Direccion: La Kennedy</p>
+            </div>
+            <hr class="m-2">
+            <p class="fw-bold titulo">Factura #1</p>
+            <p>Fecha: 14/85/52</p>
+            <p>Empresa: Nike</p>
+            <p>Dirección: Mall Multiplaza</p>
+            <table class="table-warning table mt-3">
+            <thead>
+                <tr>
+                <th scope="col">Nombre producto</th>
+                <th scope="col">Cant</th>
+                <th scope="col">Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>Camisa</td>
+                <td>2</td>
+                <td>100</td>
+                </tr>
+                <tr>
+                <td>Camisa</td>
+                <td>2</td>
+                <td>100</td>
+                </tr>
+                <tr>
+                <td>Camisa</td>
+                <td>2</td>
+                <td>100</td>
+                </tr>
+                <tr>
+                <td>Camisa</td>
+                <td>2</td>
+                <td>100</td>
+                </tr>
+                <tr>
+                <td>Camisa</td>
+                <td>2</td>
+                <td>100</td>
+                </tr>
+                <tr>
+                <td>Camisa</td>
+                <td>2</td>
+                <td>100</td>
+                </tr>
+                <tr>
+                <td>Camisa</td>
+                <td>2</td>
+                <td>100</td>
+                </tr>
+                <tr>
+                <td>Camisa</td>
+                <td>2</td>
+                <td>100</td>
+                </tr>
+                <tr>
+                <td>Leggin</td>
+                <td>1</td>
+                <td>200</td>
+                </tr>
+                <tr>
+                <td>Tenis</td>
+                <td>1</td>
+                <td>1000</td>
+                </tr>
+                <tr>
+                <td colspan="3" class="p-2"></td>
+                </tr>
+                <tr>
+                <td>Subtotal</td>
+                <td colspan="2" class="text-end pe-2">2888 lps</td>
+                </tr>
+                <tr>
+                <td>ISV</td>
+                <td colspan="2" class="text-end pe-2">2888 lps</td>
+                </tr>
+                <tr>
+                <td>Envio</td>
+                <td colspan="2" class="text-end pe-2">70 lps</td>
+                </tr>
+                <tr>
+                <td>Total</td>
+                <td colspan="2" class="text-end pe-2">2888 lps</td>
+                </tr>
+            </tbody>
+            </table>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn-close1" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="modal fade" id="modalEstadoPedido" tabindex="-1" aria-labelledby="modalEstadoPedidoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-3" id="modalEstadoPedidoLabel">Estado del Pedido</h1>
+            </div>
+            <div class="modal-body">
+              <div class="container-fluid">
+                <div class="row mb-4">
+                    <div class="col centrar-div">
+                        <button class="btn-default fs-5">En tienda</button>
+                    </div>
+                    <div class="col">
+                        <img class="rounded-circle" src="https://cdn.artboard.studio/private/social_64926e32cfcfe5001c3b24d8/projects/64926ef1427f4b001cc3919c/86f2e03f-c145-4dfc-a88a-1d9450d60f14-image.png" alt="Imagen de tienda" srcset="">
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col">
+                        <img class="rounded-circle" src="https://cdn.artboard.studio/private/social_64926e32cfcfe5001c3b24d8/projects/64926ef1427f4b001cc3919c/298789fb-1009-4123-b7c3-a83f376f4803-image.png" alt="Imagen de repartidor" srcset="">
+                    </div>
+                    <div class="col centrar-div">
+                        <button class="btn-default fs-5">En camino</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col centrar-div">
+                        <button class="btn-default fs-5">Entregado</button>
+                    </div>
+                    <div class="col">
+                        <img class="rounded-circle" src="https://cdn.artboard.studio/private/social_64926e32cfcfe5001c3b24d8/projects/64926ef1427f4b001cc3919c/9a294a55-0997-4371-ab44-8ec31012968f-image.png" alt="Imagen de tienda" srcset="">
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn-close1" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>

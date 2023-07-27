@@ -44,6 +44,9 @@ header{
 
 .triangulos .col{
     color: #fd8d07;
+    font-size: 2.5rem;
+    display: flex;
+    justify-content: center;
 }
 
 .renderizar-pedidos{
@@ -85,10 +88,20 @@ header{
 }
 
 
-.btn-pedidos{
+.btn-default{
     background-color: #fd8d07;
     border-radius: 10px;
-    font-size: 0.8rem;
+    font-size: 1rem;
+    padding: 5px 10px;
+    border: 0;
+    font-weight: bold;
+    min-width: 5rem;
+}
+
+.btn-close1{
+    background-color: #b0b0b0;
+    border-radius: 10px;
+    font-size: 1rem;
     padding: 5px 10px;
     border: 0;
     font-weight: bold;
@@ -97,6 +110,69 @@ header{
 
 #pagina-tomados, #pagina-entregas{
     display: none;
+}
+
+.modal-content{
+    background-image: url('../img/backgroud-negro.jpg');
+}
+
+.modal-header{
+    background-color: #fd8d07;
+    color: black;
+    border: 0;
+    display: flex;
+    justify-content: center;
+    height: 3rem;
+}
+
+.img-usuario{
+    width: 50%;
+}
+
+.modal-footer{
+    border: 0;
+}
+
+.cuerpo-mensaje{
+    background-color: white;
+}
+
+#modalMensajes .modal-body{
+    padding: 0;
+}
+
+#modalMensajes span{
+    padding: 10px;
+}
+
+.div-flex-end{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.div-flex-end .col-2 i{
+    font-size: 1.5rem;
+}
+
+#modalInfoProducto .modal-body{
+    padding: 0 10px;
+    color: white;
+}
+
+#modalInfoProducto table{
+    font-size: 15px;
+}
+
+#modalInfoProducto td{
+    padding: 4px;
+}
+
+.titulo{
+    font-size: 17px;
+}
+
+#modalEstadoPedido .modal-body img{
+    width: 90%;
 }
 
 footer{
