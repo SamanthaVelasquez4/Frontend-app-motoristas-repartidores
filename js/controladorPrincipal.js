@@ -1,3 +1,10 @@
+var repartidor={};
+
+//localStorage
+var localstorage=window.localStorage;
+repartidor= JSON.parse(localstorage.getItem('repartidor'));
+
+console.log(repartidor);
 
 const visualizarPedidos = () =>{
     document.getElementById('triangulo-pedidos').innerHTML=`<i class="fa-solid fa-caret-down"></i>`;
