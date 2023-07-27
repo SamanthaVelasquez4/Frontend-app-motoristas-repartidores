@@ -3,6 +3,10 @@ body{
     font-family: 'Ubuntu', sans-serif;
 }
 
+body p{
+    margin: 0;
+}
+
 header{
     height: 3rem;
     background-color: black;
@@ -43,13 +47,56 @@ header{
 }
 
 .renderizar-pedidos{
-    height: 22rem;
+    height: 60dvh;
     background-color: black;
 }
 
 .renderizar-pedidos .row{
-    height: 3rem;
     background-color: white;
+    min-height: 5rem;
+}
+
+.renderizar-pedidos .row img{
+    width: 100%;
+} 
+
+.centrar-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.col-8 .nombre{
+    font-size: 0.9rem;
+    color: #fd8d07;
+}
+
+.col-8 .telefono{
+    font-size: 0.7rem;
+}
+
+.col-8 .comision{
+    font-size: 0.8rem;
+    color: #fd8d07;
+} 
+
+.col-8 .direccion{
+    font-size: 0.7rem;
+}
+
+
+.btn-pedidos{
+    background-color: #fd8d07;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border: 0;
+    font-weight: bold;
+    min-width: 5rem;
+}
+
+#pagina-tomados, #pagina-entregas{
+    display: none;
 }
 
 footer{

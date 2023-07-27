@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="grid text-center fs-1">
+    <header class="container text-center fs-1">
         <div class="row">
             <div class="col">
                 <i class="fa-solid fa-user"></i>
@@ -30,39 +30,124 @@
         <div class="separador m-auto"></div>
     </div> 
 
-    <div class="navegacion grid text-center mt-4 fw-medium ">
+    <div class="navegacion container text-center mt-4 fw-medium ">
         <div class="row">
-            <div class="col me-2 ms-2 active">Pedidos</div>
-            <div class="col me-2 ms-2">Tomados</div>
-            <div class="col me-2 ms-2">Entregados</div>
+            <div class="col me-2 ms-2 active" onclick="visualizarPedidos();" id="btn-pedidos">Pedidos</div>
+            <div class="col me-2 ms-2" onclick="visualizarTomados();" id="btn-tomados">Tomados</div>
+            <div class="col me-2 ms-2" onclick="visualizarEntregas();" id="btn-entregados">Entregados</div>
         </div>
     </div>
 
-    <div class="triangulos text-center fs-1">
+    <div class="triangulos container text-center fs-1">
         <div class="row">
-            <div class="col"><i class="fa-solid fa-caret-down"></i></div>
-            <div class="col"><i class="fa-solid fa-caret-down"></i></div>
-            <div class="col"><i class="fa-solid fa-caret-down"></i></div>
+            <div class="col" id="triangulo-pedidos"><i class="fa-solid fa-caret-down"></i></div>
+            <div class="col" id="triangulo-tomados"></div>
+            <div class="col" id="triangulo-entregados"></div>
         </div>
     </div>
 
     <div class="renderizar-pedidos me-3 ms-3 rounded-3 overflow-auto">
-      <div class="grid pt-3 ps-2 pe-2">
-        <div class="row rounded-2 mb-3"></div>
-        <div class="row rounded-2 mb-3"></div>
-        <div class="row rounded-2 mb-3"></div>
-        <div class="row rounded-2 mb-3"></div>
-        <div class="row rounded-2 mb-3"></div>
-        <div class="row rounded-2 mb-3"></div>
-        <div class="row rounded-2 mb-3"></div>
-        <div class="row rounded-2 mb-3"></div>
-        <div class="row rounded-2 mb-3"></div>
-        <div class="row rounded-2 mb-3"></div>
+      <div class="container pt-3 ps-2 pe-2" id="pagina-pedidos">
+        <div class="row rounded-2 mb-3 pt-2 pb-2">
+            <div class="col-4 centrar-div"> 
+                <img src="img/producto.png" alt="">
+            </div>
+            <div class="col-8 grid">
+                <div class="row text-center">
+                    <p class="fw-bold">Pedido #1</p>
+                    <p class="fw-bold nombre">Maria Martinez</p>
+                    <p class="telefono">2598-9852</p>
+                    <p class=" fw-bold comision">Comisión: 70 lps</p>
+                    <p class="fst-italic direccion">Col. Hato de enmedio, casa #33, bloque 3</p>
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn-pedidos mt-2">Tomar Pedido</button>
+                </div> 
+            </div>
+        </div>
+        <div class="row rounded-2 mb-3 pt-2 pb-2">
+            <div class="col-4 centrar-div"> 
+                <img src="img/producto3.webp" alt="">
+            </div>
+            <div class="col-8 grid">
+                <div class="row text-center">
+                    <p class="fw-bold">Pedido #2</p>
+                    <p class="fw-bold nombre">Maria Martinez</p>
+                    <p class="telefono">2598-9852</p>
+                    <p class=" fw-bold comision">Comisión: 70 lps</p>
+                    <p class="fst-italic direccion">Col. Hato de enmedio, casa #33, bloque 3</p>
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn-pedidos mt-2">Tomar Pedido</button>
+                </div> 
+            </div>
+        </div>
+        <div class="row rounded-2 mb-3 pt-2 pb-2">
+            <div class="col-4 centrar-div"> 
+                <img src="img/producto2.jpg" alt="">
+            </div>
+            <div class="col-8 grid">
+                <div class="row text-center">
+                    <p class="fw-bold">Pedido #3</p>
+                    <p class="fw-bold nombre">Maria Martinez</p>
+                    <p class="telefono">2598-9852</p>
+                    <p class=" fw-bold comision">Comisión: 70 lps</p>
+                    <p class="fst-italic direccion">Col. Hato de enmedio, casa #33, bloque 3</p>
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn-pedidos mt-2">Tomar Pedido</button>
+                </div> 
+            </div>
+        </div>
+      </div>
+
+      <div class="container pt-3 ps-2 pe-2" id="pagina-tomados">
+        <div class="row rounded-2 mb-3 pt-2 pb-2">
+            <div class="col-4 centrar-div"> 
+                <img src="img/producto.png" alt="">
+            </div>
+            <div class="col-8 grid">
+                <div class="row text-center">
+                    <p class="fw-bold">Pedido #4</p>
+                    <p class="fw-bold nombre">Maria Martinez</p>
+                    <p class="telefono">2598-9852</p>
+                    <p class=" fw-bold comision">Comisión: 70 lps</p>
+                    <p class="fst-italic direccion">Col. Hato de enmedio, casa #33, bloque 3</p>
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn-pedidos mt-2">Estado</button>
+                </div> 
+            </div>
+        </div>
+      </div>
+      <div class="container pt-3 ps-2 pe-2" id="pagina-entregas">
+        <div class="row rounded-2 mb-3 pt-2 pb-2">
+            <div class="col-4 centrar-div"> 
+                <img src="img/producto2.jpg" alt="">
+            </div>
+            <div class="col-8 grid">
+                <div class="row text-center">
+                    <p class="fw-bold">Pedido #5</p>
+                    <p class="fw-bold nombre">Maria Martinez</p>
+                    <p class="telefono">2598-9852</p>
+                    <p class=" fw-bold comision">Comisión: 70 lps</p>
+                    <p class="fst-italic direccion">Col. Hato de enmedio, casa #33, bloque 3</p>
+                </div>
+                <div class="text-center">
+                    <i class="fa-solid fa-star" style="color: #fd8d07;"></i>
+                    <i class="fa-solid fa-star" style="color: #fd8d07;"></i>
+                    <i class="fa-solid fa-star" style="color: #fd8d07;"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div> 
+            </div>
+        </div>
       </div>
     </div>
     <footer></footer>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="js/controladorPrincipal.js"></script>
 </body>
 </html>
