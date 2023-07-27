@@ -132,7 +132,7 @@ var repartidores=[
             {
                 encabezado: "¡Se le ha asignado un nuevo pedido, pedido#10!",
                 contenido: "Por favor revise su apartado de tomados.",
-                estado:false
+                estado:true
             },
             {
                 encabezado: "¡Se le ha asignado un nuevo pedido, pedido#15!",

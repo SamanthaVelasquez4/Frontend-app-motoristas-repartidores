@@ -204,3 +204,95 @@ const visualizarEntregas = () =>{
     document.getElementById('pagina-tomados').style.display="none";
     document.getElementById('pagina-entregas').style.display="block";
 }
+
+const visualizarPerfil = () =>{
+
+    //Poner imagen del usuario dependiendo el genero
+    if(repartidor.genero=="F"){
+        document.getElementById('img-perfil-modal').setAttribute('src','img/usuario2.png');
+    }else{
+        document.getElementById('img-perfil-modal').setAttribute('src','img/usuario.png');
+    }
+
+    //Poner calificacion
+    document.getElementById('calificacion-perfil-modal').innerHTML="";
+    for(let i=0; i<repartidor.calificacion;i++){
+      document.getElementById('calificacion-perfil-modal').innerHTML+=`<i class="fa-solid fa-star" style="color: #fd8d07;"></i>`;  
+    }
+    for(let i=0; i<5-repartidor.calificacion;i++){
+        document.getElementById('calificacion-perfil-modal').innerHTML+=`<i class="fa-solid fa-star"></i>`;
+    }
+
+    //Ver informacion general del usuario
+    document.getElementById('info-perfil-modal').innerHTML=
+    `<p class="fw-bold">${repartidor.primerNombre} ${repartidor.primerApellido}</p>
+    <p>${repartidor.id}</p>
+    <p>${repartidor.usuario}</p>
+    <p>${repartidor.edad} años</p>
+    <p>${repartidor.numTelefono}</p>
+    <p>Pedidos entregados: ${repartidor.pedidoEntregados.length}</p>
+    <p>Ganancias: ${calcularGanancias()} lps</p>`;
+    
+}
+
+//calcular ganancias del repartidor
+const calcularGanancias = () => {
+    let ganancia=0;
+    repartidor.pedidoEntregados.forEach(pedido => {
+        ganancia+=pedido.costoEnvio;
+    });
+    return ganancia;
+}
+
+//renderizar mensajes
+const renderizarMensajes = () =>{
+    let contMensajesLeido=0;
+    document.getElementById('contenedor-mensajes-modal').innerHTML=``;
+    repartidor.mensajes.forEach((mensaje,i) => {
+        if(mensaje.estado){
+            contMensajesLeido++;
+            document.getElementById('contenedor-mensajes-modal').innerHTML+=
+            `<div class="row p-2 mt-2">
+                <div class="col cuerpo-mensaje rounded-3">
+                    <p class="fw-bold text-center mt-2">${mensaje.encabezado}</p>
+                    <p class="mb-2">${mensaje.contenido}</p>
+                    <div class="row div-flex-end fs-5" >
+                        <div class="col-2" style="color: red;" onclick="borrarMensaje(${i})"><i class="fa-solid fa-trash"></i></div>
+                    </div>
+                </div>
+            </div>`;
+        }else{
+            document.getElementById('contenedor-mensajes-modal').innerHTML+=
+            `<div class="row p-2 mt-2">
+                <div class="col cuerpo-mensaje rounded-3">
+                    <p class="fw-bold text-center mt-2">${mensaje.encabezado}</p>
+                    <p class="mb-2">${mensaje.contenido}</p>
+                    <div class="row div-flex-end fs-5" >
+                        <div class="col-2" style="color: green;" onclick="leerMensaje(${i})"><i class="fa-solid fa-check"></i></div>
+                        <div class="col-2" style="color: red;" onclick="borrarMensaje(${i})"><i class="fa-solid fa-trash"></i></div>
+                    </div>
+                </div>
+            </div>`;
+        }   
+    });
+
+    //Ver si todos los mensajes estan leidos
+    if(contMensajesLeido==repartidor.mensajes.length){
+        document.getElementById('alerta-mensaje').style.display="none";
+    }else{
+        document.getElementById('alerta-mensaje').style.display="block";
+    }
+}
+
+//Que desde el inicio diga si hay mensajes abiertos o no
+renderizarMensajes();
+
+const leerMensaje= (index) =>{
+    repartidor.mensajes[index].estado=true;
+    renderizarMensajes();
+}
+
+const borrarMensaje= (index) =>{
+    repartidor.mensajes.splice(index,1);
+    renderizarMensajes();
+}

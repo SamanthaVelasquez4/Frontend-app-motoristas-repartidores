@@ -14,10 +14,11 @@
 <body>
     <header class="container text-center fs-1">
         <div class="row">
-            <div class="col" data-bs-toggle="modal" data-bs-target="#modalUsuario">
+            <div class="col" data-bs-toggle="modal" data-bs-target="#modalUsuario" onclick="visualizarPerfil();">
                 <i class="fa-solid fa-user"></i>
             </div>
-            <div class="col" data-bs-toggle="modal" data-bs-target="#modalMensajes">
+            <div class="col header-mensaje" data-bs-toggle="modal" data-bs-target="#modalMensajes" onclick="renderizarMensajes();" >
+                <div class="alerta-mensaje-nuevo rounded-circle" id="alerta-mensaje"></div>
                 <i class="fa-solid fa-envelope"></i>
             </div>
             <div class="col">
@@ -157,38 +158,24 @@
             <div class="container-fluid">
                 <div class="row text-center">
                     <div class="col">
-                        <img src="img/usuario.png" alt="Imagen Usuario" srcset="" class="img-usuario">
+                        <img src="img/usuario.png" alt="Imagen Usuario" srcset="" class="img-usuario" id="img-perfil-modal">
                     </div>
                 </div>
                 <div class="row text-center fs-5">
-                    <div id="modal-calificacion">
-                        <i class="fa-solid fa-star" style="color: #fd8d07;"></i>
-                        <i class="fa-solid fa-star" style="color: #fd8d07;"></i>
-                        <i class="fa-solid fa-star" style="color: #fd8d07;"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <div style="color: white;">
-                        <p class="fw-bold">Dorian Contreras</p>
-                        <p>ID</p>
-                        <p>Usuario</p>
-                        <p>32 años</p>
-                        <p>8907-8709</p>
-                        <p>Pedidos entregados: 8</p>
-                        <p>Ganancias: 70 lps</p>
-                    </div>
+                    <div id="calificacion-perfil-modal"></div>
+                    <div style="color: white;" id="info-perfil-modal"></div>
                 </div>
             </div>
             </div>
             <div class="modal-footer centrar-div">
-            <button type="button" class="btn-default" data-bs-target="#modalCambiosUsuario" data-bs-toggle="modal">Cambiar Contraseña</button>
+            <button type="button" class="btn-default" data-bs-target="#modalCambioContraseña" data-bs-toggle="modal">Cambiar Contraseña</button>
             <button type="button" class="btn-close1" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
         </div>
     </div>
 
-    <div class="modal fade" id="modalCambiosUsuario" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal fade" id="modalCambioContraseña" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
         <div class="modal-header">
@@ -214,74 +201,7 @@
         <h1 class="modal-title fs-3" id="modalMensajesLabel">Mensajes</h1>
     </div>
     <div class="modal-body">
-        <div class="container-fluid">
-        <div class="row p-2 mt-2">
-            <div class="col cuerpo-mensaje rounded-3">
-                <p class="fw-bold text-center mt-2">¡Se le ha asignado un nuevo pedido, pedido#7!</p>
-                <p class="mb-2">Por favor revise su apartado de tomados.</p>
-                <div class="row div-flex-end fs-5" >
-                    <div class="col-2" style="color: green;"><i class="fa-solid fa-check"></i></div>
-                    <div class="col-2" style="color: red;"><i class="fa-solid fa-trash"></i></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row p-2 mt-2">
-            <div class="col cuerpo-mensaje rounded-3">
-                <p class="fw-bold text-center mt-2">¡Se le ha asignado un nuevo pedido, pedido#7!</p>
-                <p class="mb-2">Por favor revise su apartado de tomados.</p>
-                <div class="row div-flex-end fs-5" >
-                    <div class="col-2" style="color: green;"><i class="fa-solid fa-check"></i></div>
-                    <div class="col-2" style="color: red;"><i class="fa-solid fa-trash"></i></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row p-2 mt-2">
-            <div class="col cuerpo-mensaje rounded-3">
-                <p class="fw-bold text-center mt-2">¡Se le ha asignado un nuevo pedido, pedido#7!</p>
-                <p class="mb-2">Por favor revise su apartado de tomados.</p>
-                <div class="row div-flex-end fs-5" >
-                    <div class="col-2" style="color: green;"><i class="fa-solid fa-check"></i></div>
-                    <div class="col-2" style="color: red;"><i class="fa-solid fa-trash"></i></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row p-2 mt-2">
-            <div class="col cuerpo-mensaje rounded-3">
-                <p class="fw-bold text-center mt-2">¡Se le ha asignado un nuevo pedido, pedido#7!</p>
-                <p class="mb-2">Por favor revise su apartado de tomados.</p>
-                <div class="row div-flex-end fs-5" >
-                    <div class="col-2" style="color: green;"><i class="fa-solid fa-check"></i></div>
-                    <div class="col-2" style="color: red;"><i class="fa-solid fa-trash"></i></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row p-2 mt-2">
-            <div class="col cuerpo-mensaje rounded-3">
-                <p class="fw-bold text-center mt-2">¡Se le ha asignado un nuevo pedido, pedido#7!</p>
-                <p class="mb-2">Por favor revise su apartado de tomados.</p>
-                <div class="row div-flex-end" >
-                    <div class="col-2" style="color: green;"><i class="fa-solid fa-check"></i></div>
-                    <div class="col-2" style="color: red;"><i class="fa-solid fa-trash"></i></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row p-2 mt-2">
-            <div class="col cuerpo-mensaje rounded-3">
-                <p class="fw-bold text-center mt-2">¡Se le ha asignado un nuevo pedido, pedido#7!</p>
-                <p class="mb-2">Por favor revise su apartado de tomados.</p>
-                <div class="row div-flex-end fs-5" >
-                    <div class="col-2" style="color: green;"><i class="fa-solid fa-check"></i></div>
-                    <div class="col-2" style="color: red;"><i class="fa-solid fa-trash"></i></div>
-                </div>
-            </div>
-        </div>
-
-        </div>
+        <div class="container-fluid" id="contenedor-mensajes-modal"></div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn-close1" data-bs-dismiss="modal">Cerrar</button>

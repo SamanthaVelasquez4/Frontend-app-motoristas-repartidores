@@ -15,6 +15,19 @@ header{
     padding: 5px 0;
 }
 
+.header-mensaje{
+    position: relative;
+}
+
+.alerta-mensaje-nuevo{
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    background-color: green;
+    right: 43px;
+    top: 3px;
+}
+
 .row, .col{
     margin: 0;
 }
