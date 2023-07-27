@@ -49,6 +49,7 @@ var pedidos=[
         ubicacion: "Aldea de Suyapa",
         calificacion: null,
         estado:null,
+        imagenPedido: "img/producto3.webp",
         motorista:{
             primerNombre: null,
             primerApellido: null,
@@ -93,6 +94,7 @@ var pedidos=[
         ubicacion: "Aldea de Suyapa",
         calificacion: null,
         estado:null,
+        imagenPedido: "img/producto.png",
         motorista:{
             primerNombre: null,
             primerApellido: null,
@@ -144,6 +146,7 @@ var pedidos=[
         ubicacion: "Col. Kennedy",
         calificacion: null,
         estado:null,
+        imagenPedido:"img/producto2.jpg",
         motorista:{
             primerNombre: null,
             primerApellido: null,
@@ -155,7 +158,10 @@ var pedidos=[
     },
 ]
 
+//variables globales
 var repartidor={};
+var idPedidoSeleccionado=0;
+var pedidoVisualizado={};
 
 //localStorage
 var localstorage=window.localStorage;
@@ -163,18 +169,101 @@ repartidor= JSON.parse(localstorage.getItem('repartidor'));
 
 
 const visualizarPedidos = () =>{
+    //mostrar triangulo correspondiente a pedidos
     document.getElementById('triangulo-pedidos').innerHTML=`<i class="fa-solid fa-caret-down"></i>`;
     document.getElementById('triangulo-tomados').innerHTML=``;
     document.getElementById('triangulo-entregados').innerHTML=``;
 
+    //seleccionar que pedidos esta activo
     document.getElementById('btn-pedidos').classList.add("active");
     document.getElementById('btn-tomados').classList.remove("active");
     document.getElementById('btn-entregados').classList.remove("active");
 
+    //Mostrar solo el div de pedidos
     document.getElementById('pagina-pedidos').style.display="block";
     document.getElementById('pagina-tomados').style.display="none";
     document.getElementById('pagina-entregas').style.display="none";
 
+    //renderizar pedidos
+    document.getElementById('pagina-pedidos').innerHTML="";
+
+    pedidos.forEach(pedido => {
+        document.getElementById('pagina-pedidos').innerHTML+=
+        `<div class="row rounded-2 mb-3 pt-2 pb-2" data-bs-toggle="modal" data-bs-target="#modalInfoProducto" onclick="visualizarInfoPedido(${pedido.id}, 'pedido')">
+            <div class="col-4 centrar-div"> 
+                <img src="${pedido.imagenPedido}" alt="">
+            </div>
+            <div class="col-8 grid">
+                <div class="row text-center">
+                    <p class="fw-bold">Pedido #${pedido.id}</p>
+                    <p class="fw-bold nombre">${pedido.factura.cliente.primerNombre} ${pedido.factura.cliente.primerApellido}</p>
+                    <p class="telefono">${pedido.factura.cliente.numTelefono}</p>
+                    <p class=" fw-bold comision">Comisión: ${pedido.costoEnvio} lps</p>
+                    <p class="fst-italic direccion">${pedido.ubicacion}</p>
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn-default mt-2" data-bs-toggle="modal" data-bs-target="#modalConfirmarPedido">Tomar Pedido</button>
+                </div> 
+            </div>
+        </div>`;
+    });
+}
+
+visualizarPedidos();
+
+const visualizarInfoPedido = (id, tipo) =>{
+    idPedidoSeleccionado=id;
+    pedidoVisualizado={};
+    if(tipo=="pedido"){
+        pedidoVisualizado= pedidos.find(element => element.id === idPedidoSeleccionado);
+    }else if(tipo=="tomado"){
+        pedidoVisualizado= repartidor.pedidoTomados.find(element => element.id === idPedidoSeleccionado);
+    }else{
+        pedidoVisualizado=  repartidor.pedidoEntregados.find(element => element.id === idPedidoSeleccionado);
+    }
+    
+
+    //encabezado
+    document.getElementById('informacion-general-pedido-modal').innerHTML=
+    `<p class="mt-2 fw-bold titulo">Pedido #${pedidoVisualizado.id}</p>
+    <hr class="m-2">
+    <div>
+    <p class="fw-bold titulo">Informacion cliente</p>
+    <p>Nombre: ${pedidoVisualizado.factura.cliente.primerNombre} ${pedidoVisualizado.factura.cliente.primerApellido}</p>
+    <p>Telefono: ${pedidoVisualizado.factura.cliente.numTelefono}</p>
+    <p>Direccion: ${pedidoVisualizado.ubicacion}</p>
+    </div>
+    <hr class="m-2">
+    <p class="fw-bold titulo">Factura #${pedidoVisualizado.factura.id}</p>
+    <p>Fecha: ${pedidoVisualizado.factura.fecha}</p>
+    <p>Empresa: ${pedidoVisualizado.factura.empresa.nombre}</p>
+    <p>Dirección: ${pedidoVisualizado.factura.empresa.direccion}</p>`;
+
+    //productos
+    document.getElementById('productos-factura').innerHTML=``;
+
+    pedidoVisualizado.factura.productos.forEach(producto =>{
+        document.getElementById('productos-factura').innerHTML+=
+        `<tr>
+            <td>${producto.producto.nombre}</td>
+            <td>${producto.cantidad}</td>
+            <td>${producto.producto.precio}</td>
+        </tr>`;
+    });
+
+    document.getElementById('productos-factura').innerHTML+=
+        `<tr>
+            <td>Subtotal</td>
+            <td colspan="2">${calcularSubtotal()}</td>
+        </tr>
+        <tr>
+            <td>ISV</td>
+            <td colspan="2">${calcularISV()}</td>
+        </tr>
+        <tr>
+            <td>Total</td>
+            <td colspan="2">${calcularTotal()}</td>
+        </tr>`;
 }
 
 const visualizarTomados = () =>{
@@ -189,6 +278,29 @@ const visualizarTomados = () =>{
     document.getElementById('pagina-pedidos').style.display="none";
     document.getElementById('pagina-tomados').style.display="block";
     document.getElementById('pagina-entregas').style.display="none";
+
+    //renderizar pedidos tomados
+    document.getElementById('pagina-tomados').innerHTML="";
+    repartidor.pedidoTomados.forEach(pedido => {
+        document.getElementById('pagina-tomados').innerHTML+=
+        `<div class="row rounded-2 mb-3 pt-2 pb-2" data-bs-toggle="modal" data-bs-target="#modalInfoProducto" onclick="visualizarInfoPedido(${pedido.id}, 'tomado')">
+            <div class="col-4 centrar-div"> 
+                <img src="${pedido.imagenPedido}" alt="">
+            </div>
+            <div class="col-8 grid">
+                <div class="row text-center">
+                    <p class="fw-bold">Pedido #${pedido.id}</p>
+                    <p class="fw-bold nombre">${pedido.factura.cliente.primerNombre} ${pedido.factura.cliente.primerApellido}</p>
+                    <p class="telefono">${pedido.factura.cliente.numTelefono}</p>
+                    <p class=" fw-bold comision">Comisión: ${pedido.costoEnvio} lps</p>
+                    <p class="fst-italic direccion">${pedido.ubicacion}</p>
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn-default mt-2" data-bs-toggle="modal" data-bs-target="#modalEstadoPedido">Estado</button>
+                </div> 
+            </div>
+        </div>`;
+    })
 }
 
 const visualizarEntregas = () =>{
@@ -203,6 +315,37 @@ const visualizarEntregas = () =>{
     document.getElementById('pagina-pedidos').style.display="none";
     document.getElementById('pagina-tomados').style.display="none";
     document.getElementById('pagina-entregas').style.display="block";
+
+    //renderizar pedidos entregados
+    document.getElementById('pagina-entregas').innerHTML="";
+    repartidor.pedidoEntregados.forEach(pedido =>{
+        console.log(pedido);
+        let texto="";
+        for(let i=0; i<pedido.calificacion;i++){
+            texto+=`<i class="fa-solid fa-star" style="color: #fd8d07;"></i>`;
+        }
+        for(let i=0; i<5-pedido.calificacion;i++){
+            texto+=`<i class="fa-solid fa-star"></i>`;
+        }
+        document.getElementById('pagina-entregas').innerHTML+=
+        `<div class="row rounded-2 mb-3 pt-2 pb-2" data-bs-toggle="modal" data-bs-target="#modalInfoProducto" onclick="visualizarInfoPedido(${pedido.id}, 'entrega')">
+            <div class="col-4 centrar-div"> 
+                <img src="${pedido.imagenPedido}" alt="">
+            </div>
+            <div class="col-8 grid">
+                <div class="row text-center">
+                    <p class="fw-bold">Pedido #${pedido.id}</p>
+                    <p class="fw-bold nombre">${pedido.factura.cliente.primerNombre} ${pedido.factura.cliente.primerApellido}</p>
+                    <p class="telefono">${pedido.factura.cliente.numTelefono}</p>
+                    <p class=" fw-bold comision">Comisión: ${pedido.costoEnvio} lps</p>
+                    <p class="fst-italic direccion">${pedido.ubicacion}</p>
+                </div>
+                <div class="text-center">
+                    ${texto}
+                </div> 
+            </div>
+        </div>`; 
+    })
 }
 
 const visualizarPerfil = () =>{
@@ -295,4 +438,25 @@ const leerMensaje= (index) =>{
 const borrarMensaje= (index) =>{
     repartidor.mensajes.splice(index,1);
     renderizarMensajes();
+}
+
+const calcularSubtotal = () =>{
+    let subtotal=0;
+    console.log(pedidoVisualizado);
+    pedidoVisualizado.factura.productos.forEach(producto =>{
+        subtotal+=(producto.producto.precio*producto.cantidad);
+    });
+    return subtotal;
+}
+
+const calcularISV = () =>{
+    let ISV=0;
+    ISV=0.15*calcularSubtotal();
+    return ISV;
+}
+
+const calcularTotal = () =>{
+    let total=0;
+    total= calcularSubtotal() + calcularISV();
+    return total;
 }

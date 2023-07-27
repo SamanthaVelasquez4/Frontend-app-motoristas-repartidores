@@ -45,7 +45,8 @@ var repartidores=[
                 costoEnvio: 70,
                 ubicacion: "Col. Hato de enmedio",
                 calificacion: 2,
-                estado:null   
+                estado:null,
+                imagenPedido: "img/producto.png",   
             }
         ],
         pedidoEntregados: [
@@ -91,7 +92,8 @@ var repartidores=[
                 costoEnvio: 70,
                 ubicacion: "Col. Hato de enmedio",
                 calificacion: 4,
-                estado:"entregado",   
+                estado:"entregado",
+                imagenPedido:"img/producto2.jpg"   
             },
             {
                 id:3,
@@ -120,7 +122,8 @@ var repartidores=[
                 costoEnvio: 70,
                 ubicacion: "Col. Hato de enmedio",
                 calificacion: 1,
-                estado:"entregado",   
+                estado:"entregado", 
+                imagenPedido:"img/producto3.webp"  
             }
         ],
         mensajes: [
@@ -180,7 +183,8 @@ var repartidores=[
                 costoEnvio: 70,
                 ubicacion: "Col. Hato de enmedio",
                 calificacion: 4,
-                estado:null   
+                estado:null,
+                imagenPedido:"img/producto3.webp"   
             }
         ],
         pedidoEntregados: [
@@ -233,7 +237,8 @@ var repartidores=[
                 costoEnvio: 60,
                 ubicacion: "Aldea de Suyapa",
                 calificacion: 4,
-                estado:"entregado",   
+                estado:"entregado", 
+                imagenPedido: "img/producto.png"  
             },
             {
                 id:6,
@@ -262,7 +267,8 @@ var repartidores=[
                 costoEnvio: 70,
                 ubicacion: "Col. Hato de enmedio",
                 calificacion: 1,
-                estado:"entregado",   
+                estado:"entregado",
+                imagenPedido:"img/producto2.jpg"   
             }
         ],
         mensajes: [
