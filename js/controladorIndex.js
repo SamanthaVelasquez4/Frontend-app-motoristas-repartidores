@@ -285,6 +285,7 @@ var repartidor;
 
 //localstorage
 var localstorage=window.localStorage;
+localstorage.removeItem('repartidor');
 
 const verificarLogin = () =>{
     console.log("Entra aqui");
