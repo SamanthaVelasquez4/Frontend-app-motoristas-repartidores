@@ -170,7 +170,7 @@ var modalEstadoPedido = new bootstrap.Modal(document.getElementById('modalEstado
 var localstorage=window.localStorage;
 repartidor= JSON.parse(localstorage.getItem('repartidor'));
 
-
+//Funciones para la navegacion entre los Pedidos, Pedidos Tomados y Pedidos Entregados
 const visualizarPedidos = () =>{
     //mostrar triangulo correspondiente a pedidos
     document.getElementById('triangulo-pedidos').innerHTML=`<i class="fa-solid fa-caret-down"></i>`;
@@ -210,89 +210,6 @@ const visualizarPedidos = () =>{
             </div>
         </div>`;
     });
-}
-
-visualizarPedidos();
-
-const visualizarInfoPedido = (id, tipo) =>{
-    pedidoVisualizado={};
-    if(tipo=="pedido"){
-        pedidoVisualizado= pedidos.find(element => element.id === id);
-    }else if(tipo=="tomado"){
-        pedidoVisualizado= repartidor.pedidoTomados.find(element => element.id === id);
-    }else{
-        pedidoVisualizado=  repartidor.pedidoEntregados.find(element => element.id === id);
-    }
-    
-
-    //encabezado
-    document.getElementById('informacion-general-pedido-modal').innerHTML=
-    `<p class="mt-2 fw-bold titulo">Pedido #${pedidoVisualizado.id}</p>
-    <hr class="m-2">
-    <div>
-    <p class="fw-bold titulo">Informacion cliente</p>
-    <p>Nombre: ${pedidoVisualizado.factura.cliente.primerNombre} ${pedidoVisualizado.factura.cliente.primerApellido}</p>
-    <p>Telefono: ${pedidoVisualizado.factura.cliente.numTelefono}</p>
-    <p>Direccion: ${pedidoVisualizado.ubicacion}</p>
-    </div>
-    <hr class="m-2">
-    <p class="fw-bold titulo">Factura #${pedidoVisualizado.factura.id}</p>
-    <p>Fecha: ${pedidoVisualizado.factura.fecha}</p>
-    <p>Empresa: ${pedidoVisualizado.factura.empresa.nombre}</p>
-    <p>Dirección: ${pedidoVisualizado.factura.empresa.direccion}</p>`;
-
-    //productos
-    document.getElementById('productos-factura').innerHTML=``;
-
-    pedidoVisualizado.factura.productos.forEach(producto =>{
-        document.getElementById('productos-factura').innerHTML+=
-        `<tr>
-            <td>${producto.producto.nombre}</td>
-            <td>${producto.cantidad}</td>
-            <td>${producto.producto.precio}</td>
-        </tr>`;
-    });
-
-    document.getElementById('productos-factura').innerHTML+=
-        `<tr>
-            <td>Subtotal</td>
-            <td colspan="2">${calcularSubtotal()}</td>
-        </tr>
-        <tr>
-            <td>ISV</td>
-            <td colspan="2">${calcularISV()}</td>
-        </tr>
-        <tr>
-            <td>Total</td>
-            <td colspan="2">${calcularTotal()}</td>
-        </tr>`;
-}
-
-const tomarPedido = (id) =>{
-    pedidoTomado = pedidos.find(element => element.id === id);
-    //console.log(pedidoTomado);
-}
-
-const confirmarPedidoTomado = () =>{
-    //Poner los datos del motorista en el pedido para el cliente
-    pedidoTomado.motorista.primerNombre=repartidor.primerNombre;
-    pedidoTomado.motorista.primerApellido=repartidor.primerApellido;
-    pedidoTomado.motorista.calificacion=repartidor.calificacion;
-    pedidoTomado.motorista.tipoVehiculo=repartidor.tipoVehiculo;
-    pedidoTomado.motorista.placa=repartidor.placa;
-    pedidoTomado.motorista.numTelefono=repartidor.numTelefono;
-    pedidoTomado.estado="En camino";
-    console.log(pedidoTomado);
-
-    //Agregar el pedido al arreglo pedidos Tomados del repartidor
-    repartidor.pedidoTomados.push(pedidoTomado);
-
-    //Borrar el pedido del arregelo de pedidos
-    pedidos.splice(pedidos.indexOf(pedidoTomado),1);
-
-    //Cerrar modal y mostrar apartado de tomados
-    modalConfirmarPedido.hide();
-    visualizarTomados();
 }
 
 
@@ -377,6 +294,7 @@ const visualizarEntregas = () =>{
     })
 }
 
+//Funciones para el nav del encabezado como ser Ver el perfil y mensajes
 const visualizarPerfil = () =>{
 
     //Poner imagen del usuario dependiendo el genero
@@ -407,7 +325,10 @@ const visualizarPerfil = () =>{
     
 }
 
-//renderizar mensajes
+const tomarPedido = (id) =>{
+    pedidoTomado = pedidos.find(element => element.id === id);
+}
+
 const renderizarMensajes = () =>{
     let contMensajesLeido=0;
     document.getElementById('contenedor-mensajes-modal').innerHTML=``;
@@ -447,18 +368,6 @@ const renderizarMensajes = () =>{
     }
 }
 
-//Que desde el inicio diga si hay mensajes abiertos o no
-renderizarMensajes();
-
-//calcular ganancias del repartidor
-const calcularGanancias = () => {
-    let ganancia=0;
-    repartidor.pedidoEntregados.forEach(pedido => {
-        ganancia+=pedido.costoEnvio;
-    });
-    return ganancia;
-}
-
 const leerMensaje= (index) =>{
     repartidor.mensajes[index].estado=true;
     renderizarMensajes();
@@ -469,24 +378,85 @@ const borrarMensaje= (index) =>{
     renderizarMensajes();
 }
 
-const calcularSubtotal = () =>{
-    let subtotal=0;
+//Funciones para los Modales
+const confirmarPedidoTomado = () =>{
+    //Poner los datos del motorista en el pedido para el cliente
+    pedidoTomado.motorista.primerNombre=repartidor.primerNombre;
+    pedidoTomado.motorista.primerApellido=repartidor.primerApellido;
+    pedidoTomado.motorista.calificacion=repartidor.calificacion;
+    pedidoTomado.motorista.tipoVehiculo=repartidor.tipoVehiculo;
+    pedidoTomado.motorista.placa=repartidor.placa;
+    pedidoTomado.motorista.numTelefono=repartidor.numTelefono;
+    pedidoTomado.estado="En camino";
+    console.log(pedidoTomado);
+
+    //Agregar el pedido al arreglo pedidos Tomados del repartidor
+    repartidor.pedidoTomados.push(pedidoTomado);
+
+    //Borrar el pedido del arregelo de pedidos
+    pedidos.splice(pedidos.indexOf(pedidoTomado),1);
+
+    //Cerrar modal y mostrar apartado de tomados
+    modalConfirmarPedido.hide();
+    visualizarTomados();
+}
+
+const visualizarInfoPedido = (id, tipo) =>{
+    pedidoVisualizado={};
+    if(tipo=="pedido"){
+        pedidoVisualizado= pedidos.find(element => element.id === id);
+    }else if(tipo=="tomado"){
+        pedidoVisualizado= repartidor.pedidoTomados.find(element => element.id === id);
+    }else{
+        pedidoVisualizado=  repartidor.pedidoEntregados.find(element => element.id === id);
+    }
+    
+
+    //encabezado
+    document.getElementById('informacion-general-pedido-modal').innerHTML=
+    `<p class="mt-2 fw-bold titulo">Pedido #${pedidoVisualizado.id}</p>
+    <hr class="m-2">
+    <div>
+    <p class="fw-bold titulo">Informacion cliente</p>
+    <p>Nombre: ${pedidoVisualizado.factura.cliente.primerNombre} ${pedidoVisualizado.factura.cliente.primerApellido}</p>
+    <p>Telefono: ${pedidoVisualizado.factura.cliente.numTelefono}</p>
+    <p>Direccion: ${pedidoVisualizado.ubicacion}</p>
+    </div>
+    <hr class="m-2">
+    <p class="fw-bold titulo">Factura #${pedidoVisualizado.factura.id}</p>
+    <p>Fecha: ${pedidoVisualizado.factura.fecha}</p>
+    <p>Empresa: ${pedidoVisualizado.factura.empresa.nombre}</p>
+    <p>Dirección: ${pedidoVisualizado.factura.empresa.direccion}</p>`;
+
+    //productos
+    document.getElementById('productos-factura').innerHTML=``;
+
     pedidoVisualizado.factura.productos.forEach(producto =>{
-        subtotal+=(producto.producto.precio*producto.cantidad);
+        document.getElementById('productos-factura').innerHTML+=
+        `<tr>
+            <td>${producto.producto.nombre}</td>
+            <td>${producto.cantidad}</td>
+            <td>${producto.producto.precio}</td>
+        </tr>`;
     });
-    return subtotal;
-}
 
-const calcularISV = () =>{
-    let ISV=0;
-    ISV=0.15*calcularSubtotal();
-    return ISV;
-}
-
-const calcularTotal = () =>{
-    let total=0;
-    total= calcularSubtotal() + calcularISV();
-    return total;
+    document.getElementById('productos-factura').innerHTML+=
+        `<tr>
+            <td>Subtotal</td>
+            <td colspan="2">${calcularSubtotal()}</td>
+        </tr>
+        <tr>
+            <td>ISV</td>
+            <td colspan="2">${calcularISV()}</td>
+        </tr>
+        <tr>
+            <td>Envio</td>
+            <td colspan="2">${pedidoVisualizado.costoEnvio}</td>
+        </tr>
+        <tr>
+            <td>Total</td>
+            <td colspan="2">${calcularTotal()+pedidoVisualizado.costoEnvio}</td>
+        </tr>`;
 }
 
 //Funciones para el modal de estado
@@ -551,3 +521,38 @@ const estadoEntregado = () =>{
     modalEstadoPedido.hide();
     visualizarEntregas();
 }
+
+//calculos
+const calcularGanancias = () => {
+    let ganancia=0;
+    repartidor.pedidoEntregados.forEach(pedido => {
+        ganancia+=pedido.costoEnvio;
+    });
+    return ganancia;
+}
+
+const calcularSubtotal = () =>{
+    let subtotal=0;
+    pedidoVisualizado.factura.productos.forEach(producto =>{
+        subtotal+=(producto.producto.precio*producto.cantidad);
+    });
+    return subtotal;
+}
+
+const calcularISV = () =>{
+    let ISV=0;
+    ISV=0.15*calcularSubtotal();
+    return ISV;
+}
+
+const calcularTotal = () =>{
+    let total=0;
+    total= calcularSubtotal() + calcularISV();
+    return total;
+}
+
+//Funciones que se realizan antes de que el usuario interactue
+visualizarPedidos();
+renderizarMensajes();
+
+
