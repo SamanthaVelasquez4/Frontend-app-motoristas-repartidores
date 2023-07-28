@@ -100,7 +100,7 @@
     </div>
 
     <div class="modal fade" id="modalMensajes" tabindex="-1" aria-labelledby="modalMensajesLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
     <div class="modal-content">
     <div class="modal-header">
         <h1 class="modal-title fs-3" id="modalMensajesLabel">Mensajes</h1>
@@ -131,7 +131,7 @@
         </div>
         <div class="modal-footer centrar-div">
             <button type="button" class="btn-close1" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn-default">Confirmar</button>
+            <button type="button" class="btn-default" onclick="confirmarPedidoTomado();">Confirmar</button>
         </div>
         </div>
     </div>
@@ -141,7 +141,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
         <div class="modal-header">
-            <h1 class="modal-title fs-3" id="modalInfoProductoLabel">Informacion Pedido</h1>
+            <h1 class="modal-title fs-3" id="modalInfoProductoLabel">Información Pedido</h1>
         </div>
         <div class="modal-body text-center">
             <div id="informacion-general-pedido-modal"></div>
@@ -174,7 +174,7 @@
               <div class="container-fluid">
                 <div class="row mb-4">
                     <div class="col centrar-div">
-                        <button class="btn-default fs-5">En tienda</button>
+                        <button class="btn-close1 fs-5" onclick="estadoEnTienda();" id="btn-estado-tienda">En tienda</button>
                     </div>
                     <div class="col">
                         <img class="rounded-circle" src="https://cdn.artboard.studio/private/social_64926e32cfcfe5001c3b24d8/projects/64926ef1427f4b001cc3919c/86f2e03f-c145-4dfc-a88a-1d9450d60f14-image.png" alt="Imagen de tienda" srcset="">
@@ -185,15 +185,23 @@
                         <img class="rounded-circle" src="https://cdn.artboard.studio/private/social_64926e32cfcfe5001c3b24d8/projects/64926ef1427f4b001cc3919c/298789fb-1009-4123-b7c3-a83f376f4803-image.png" alt="Imagen de repartidor" srcset="">
                     </div>
                     <div class="col centrar-div">
-                        <button class="btn-default fs-5">En camino</button>
+                        <button class="btn-close1 fs-5" onclick="estadoEnCamino();" id="btn-estado-camino">En camino</button>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col centrar-div">
+                        <button class="btn-close1 fs-5" onclick="estadoEnDestino();" id="btn-estado-destino">En destino</button>
+                    </div>
+                    <div class="col">
+                        <img class="rounded-circle" src="https://img.freepik.com/free-vector/two-storey-house_1308-16176.jpg?w=740&t=st=1690565451~exp=1690566051~hmac=3851aba099585b8c58ecd495c729e57428bfe84474e0d37b845914722cc5f3b9" alt="Imagen de repartidor" srcset="">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col centrar-div">
-                        <button class="btn-default fs-5">Entregado</button>
-                    </div>
                     <div class="col">
                         <img class="rounded-circle" src="https://cdn.artboard.studio/private/social_64926e32cfcfe5001c3b24d8/projects/64926ef1427f4b001cc3919c/9a294a55-0997-4371-ab44-8ec31012968f-image.png" alt="Imagen de tienda" srcset="">
+                    </div>
+                    <div class="col centrar-div">
+                        <button class="btn-close1 fs-5" onclick="estadoEntregado();" id="btn-estado-entregado">Entregado</button>
                     </div>
                 </div>
               </div>

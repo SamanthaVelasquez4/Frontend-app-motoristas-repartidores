@@ -48,7 +48,7 @@ var pedidos=[
         costoEnvio:80,
         ubicacion: "Aldea de Suyapa",
         calificacion: null,
-        estado:null,
+        estado:"Buscando Repartidor",
         imagenPedido: "img/producto3.webp",
         motorista:{
             primerNombre: null,
@@ -145,7 +145,7 @@ var pedidos=[
         costoEnvio:80,
         ubicacion: "Col. Kennedy",
         calificacion: null,
-        estado:null,
+        estado:"Buscando repartidor",
         imagenPedido:"img/producto2.jpg",
         motorista:{
             primerNombre: null,
@@ -160,8 +160,11 @@ var pedidos=[
 
 //variables globales
 var repartidor={};
-var idPedidoSeleccionado=0;
 var pedidoVisualizado={};
+var pedidoTomado={};
+var indexPedidoTomado;
+var modalConfirmarPedido = new bootstrap.Modal(document.getElementById('modalConfirmarPedido'));
+var modalEstadoPedido = new bootstrap.Modal(document.getElementById('modalEstadoPedido'));
 
 //localStorage
 var localstorage=window.localStorage;
@@ -202,7 +205,7 @@ const visualizarPedidos = () =>{
                     <p class="fst-italic direccion">${pedido.ubicacion}</p>
                 </div>
                 <div class="text-end">
-                    <button type="button" class="btn-default mt-2" data-bs-toggle="modal" data-bs-target="#modalConfirmarPedido">Tomar Pedido</button>
+                    <button type="button" class="btn-default mt-2" data-bs-toggle="modal" data-bs-target="#modalConfirmarPedido" onclick="tomarPedido(${pedido.id});">Tomar Pedido</button>
                 </div> 
             </div>
         </div>`;
@@ -212,14 +215,13 @@ const visualizarPedidos = () =>{
 visualizarPedidos();
 
 const visualizarInfoPedido = (id, tipo) =>{
-    idPedidoSeleccionado=id;
     pedidoVisualizado={};
     if(tipo=="pedido"){
-        pedidoVisualizado= pedidos.find(element => element.id === idPedidoSeleccionado);
+        pedidoVisualizado= pedidos.find(element => element.id === id);
     }else if(tipo=="tomado"){
-        pedidoVisualizado= repartidor.pedidoTomados.find(element => element.id === idPedidoSeleccionado);
+        pedidoVisualizado= repartidor.pedidoTomados.find(element => element.id === id);
     }else{
-        pedidoVisualizado=  repartidor.pedidoEntregados.find(element => element.id === idPedidoSeleccionado);
+        pedidoVisualizado=  repartidor.pedidoEntregados.find(element => element.id === id);
     }
     
 
@@ -266,6 +268,34 @@ const visualizarInfoPedido = (id, tipo) =>{
         </tr>`;
 }
 
+const tomarPedido = (id) =>{
+    pedidoTomado = pedidos.find(element => element.id === id);
+    //console.log(pedidoTomado);
+}
+
+const confirmarPedidoTomado = () =>{
+    //Poner los datos del motorista en el pedido para el cliente
+    pedidoTomado.motorista.primerNombre=repartidor.primerNombre;
+    pedidoTomado.motorista.primerApellido=repartidor.primerApellido;
+    pedidoTomado.motorista.calificacion=repartidor.calificacion;
+    pedidoTomado.motorista.tipoVehiculo=repartidor.tipoVehiculo;
+    pedidoTomado.motorista.placa=repartidor.placa;
+    pedidoTomado.motorista.numTelefono=repartidor.numTelefono;
+    pedidoTomado.estado="En camino";
+    console.log(pedidoTomado);
+
+    //Agregar el pedido al arreglo pedidos Tomados del repartidor
+    repartidor.pedidoTomados.push(pedidoTomado);
+
+    //Borrar el pedido del arregelo de pedidos
+    pedidos.splice(pedidos.indexOf(pedidoTomado),1);
+
+    //Cerrar modal y mostrar apartado de tomados
+    modalConfirmarPedido.hide();
+    visualizarTomados();
+}
+
+
 const visualizarTomados = () =>{
     document.getElementById('triangulo-pedidos').innerHTML=``;
     document.getElementById('triangulo-tomados').innerHTML=`<i class="fa-solid fa-caret-down"></i>`;
@@ -296,7 +326,7 @@ const visualizarTomados = () =>{
                     <p class="fst-italic direccion">${pedido.ubicacion}</p>
                 </div>
                 <div class="text-end">
-                    <button type="button" class="btn-default mt-2" data-bs-toggle="modal" data-bs-target="#modalEstadoPedido">Estado</button>
+                    <button type="button" class="btn-default mt-2" data-bs-toggle="modal" data-bs-target="#modalEstadoPedido" onclick="informacionEstado(${pedido.id})">Estado</button>
                 </div> 
             </div>
         </div>`;
@@ -319,7 +349,6 @@ const visualizarEntregas = () =>{
     //renderizar pedidos entregados
     document.getElementById('pagina-entregas').innerHTML="";
     repartidor.pedidoEntregados.forEach(pedido =>{
-        console.log(pedido);
         let texto="";
         for(let i=0; i<pedido.calificacion;i++){
             texto+=`<i class="fa-solid fa-star" style="color: #fd8d07;"></i>`;
@@ -378,15 +407,6 @@ const visualizarPerfil = () =>{
     
 }
 
-//calcular ganancias del repartidor
-const calcularGanancias = () => {
-    let ganancia=0;
-    repartidor.pedidoEntregados.forEach(pedido => {
-        ganancia+=pedido.costoEnvio;
-    });
-    return ganancia;
-}
-
 //renderizar mensajes
 const renderizarMensajes = () =>{
     let contMensajesLeido=0;
@@ -430,6 +450,15 @@ const renderizarMensajes = () =>{
 //Que desde el inicio diga si hay mensajes abiertos o no
 renderizarMensajes();
 
+//calcular ganancias del repartidor
+const calcularGanancias = () => {
+    let ganancia=0;
+    repartidor.pedidoEntregados.forEach(pedido => {
+        ganancia+=pedido.costoEnvio;
+    });
+    return ganancia;
+}
+
 const leerMensaje= (index) =>{
     repartidor.mensajes[index].estado=true;
     renderizarMensajes();
@@ -442,7 +471,6 @@ const borrarMensaje= (index) =>{
 
 const calcularSubtotal = () =>{
     let subtotal=0;
-    console.log(pedidoVisualizado);
     pedidoVisualizado.factura.productos.forEach(producto =>{
         subtotal+=(producto.producto.precio*producto.cantidad);
     });
@@ -459,4 +487,67 @@ const calcularTotal = () =>{
     let total=0;
     total= calcularSubtotal() + calcularISV();
     return total;
+}
+
+//Funciones para el modal de estado
+const informacionEstado = (id) =>{
+    pedidoTomado = repartidor.pedidoTomados.find(element => element.id === id);
+
+    let btnCamino= document.getElementById('btn-estado-camino');
+    let btnTienda= document.getElementById('btn-estado-tienda');
+    let btnDestino= document.getElementById('btn-estado-destino');
+    let btnEntrega= document.getElementById('btn-estado-entregado');
+
+    //El boton del estado actual va a aparecer de distinto color
+    if(pedidoTomado.estado=="En camino"){
+        btnCamino.classList.add('active-btn-estado');
+        btnDestino.classList.remove('active-btn-estado');
+        btnTienda.classList.remove('active-btn-estado');
+        btnEntrega.classList.remove('active-btn-estado');
+    }else if(pedidoTomado.estado=="En tienda"){
+        btnTienda.classList.add('active-btn-estado');
+        btnDestino.classList.remove('active-btn-estado');
+        btnCamino.classList.remove('active-btn-estado');
+        btnEntrega.classList.remove('active-btn-estado');
+    }else if(pedidoTomado.estado=="Entregado"){
+        btnEntrega.classList.add('active-btn-estado');
+        btnDestino.classList.remove('active-btn-estado');
+        btnTienda.classList.remove('active-btn-estado');
+        btnCamino.classList.remove('active-btn-estado');
+    }else{
+        btnDestino.classList.add('active-btn-estado');
+        btnCamino.classList.remove('active-btn-estado');
+        btnTienda.classList.remove('active-btn-estado');
+        btnEntrega.classList.remove('active-btn-estado');
+    }
+}
+
+const estadoEnTienda = () =>{
+    pedidoTomado.estado="En tienda";
+    modalEstadoPedido.hide();
+}
+
+const estadoEnCamino = () =>{
+    console.log(pedidoTomado);
+    pedidoTomado.estado= "En camino";
+    modalEstadoPedido.hide();
+}
+
+const estadoEnDestino = () =>{
+    pedidoTomado.estado="En destino";
+    modalEstadoPedido.hide();
+}
+
+const estadoEntregado = () =>{
+    pedidoTomado.estado ="Entregado";
+
+    //Pasar el pedido a entrgados del repartidor
+    repartidor.pedidoEntregados.push(pedidoTomado);
+
+    //Borrar el pedido del arreglo de tomados
+    repartidor.pedidoTomados.splice(repartidor.pedidoTomados.indexOf(pedidoTomado),1);
+
+    //Cerrar Modal y mostrar el apartado de pedidos Entregados
+    modalEstadoPedido.hide();
+    visualizarEntregas();
 }

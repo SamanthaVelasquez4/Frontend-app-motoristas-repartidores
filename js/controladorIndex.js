@@ -9,6 +9,8 @@ var repartidores=[
         genero:"M",
         edad: 32,
         calificacion: 3,
+        tipoVehiculo: "Moto",
+        placa: "HVD-196",
         pedidoTomados:[
             {
                 id:1,
@@ -45,7 +47,7 @@ var repartidores=[
                 costoEnvio: 70,
                 ubicacion: "Col. Hato de enmedio",
                 calificacion: 2,
-                estado:null,
+                estado:"En camino",
                 imagenPedido: "img/producto.png",   
             }
         ],
@@ -122,7 +124,7 @@ var repartidores=[
                 costoEnvio: 70,
                 ubicacion: "Col. Hato de enmedio",
                 calificacion: 1,
-                estado:"entregado", 
+                estado:"Entregado", 
                 imagenPedido:"img/producto3.webp"  
             }
         ],
@@ -154,6 +156,8 @@ var repartidores=[
         genero:"F",
         edad: 28,
         calificacion: 5,
+        tipoVehiculo: "Carro",
+        placa: "KD5-85D",
         pedidoTomados:[
             {
                 id:4,
@@ -182,8 +186,8 @@ var repartidores=[
                 },
                 costoEnvio: 70,
                 ubicacion: "Col. Hato de enmedio",
-                calificacion: 4,
-                estado:null,
+                calificacion: 0,
+                estado:"En destino",
                 imagenPedido:"img/producto3.webp"   
             }
         ],
@@ -294,9 +298,9 @@ var localstorage=window.localStorage;
 localstorage.removeItem('repartidor');
 
 const verificarLogin = () =>{
-    console.log("Entra aqui");
+    //console.log("Entra aqui");
     repartidor= repartidores.find(element => element.usuario===document.getElementById('usuario').value && document.getElementById('password').value===element.contrasena);
-    console.log(repartidor);
+    //console.log(repartidor);
 
     if(repartidor==undefined){
         document.getElementById('anchor-verificar-ingreso').removeAttribute('href');

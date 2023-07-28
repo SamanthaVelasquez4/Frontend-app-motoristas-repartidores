@@ -121,6 +121,10 @@ header{
     min-width: 5rem;
 }
 
+.active-btn-estado{
+    background-color: #fd8d07 !important;
+}
+
 #pagina-tomados, #pagina-entregas{
     display: none;
 }
