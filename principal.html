@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="img/icon.png" type="image/x-icon">
 </head>
 <body>
-    <header class="container text-center fs-1">
+    <header class="container-fluid text-center fs-1">
         <div class="row">
             <div class="col" data-bs-toggle="modal" data-bs-target="#modalUsuario" onclick="visualizarPerfil();">
                 <i class="fa-solid fa-user"></i>
@@ -117,25 +117,46 @@
     </div>
 
     <div class="modal fade" id="modalConfirmarPedido" tabindex="-1" aria-labelledby="modalConfirmarPedidoLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-3" id="modalConfirmarPedidoLabel">Confirmación de pedido</h1>
-        </div>
-        <div class="modal-body">
-            <div class="container-fluid">
-            <div class="row text-center"  style="color: white;">
-                <p class="fs-5 fw-bold">¿Esta seguro que desea realizar este pedido?</p>
-                <p style="font-size: 1rem;">Recuerde que puede ver los detalles del pedido dando clic sobre el mismo</p>
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-3" id="modalConfirmarPedidoLabel">Confirmación de pedido</h1>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                <div class="row text-center"  style="color: white;">
+                    <p class="fs-5 fw-bold">¿Esta seguro que desea realizar este pedido?</p>
+                    <p style="font-size: 1rem;">Recuerde que puede ver los detalles del pedido dando clic sobre el mismo</p>
+                </div>
+                </div>
+            </div>
+            <div class="modal-footer centrar-div">
+                <button type="button" class="btn-close1" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn-default" onclick="confirmarPedidoTomado();">Confirmar</button>
             </div>
             </div>
-        </div>
-        <div class="modal-footer centrar-div">
-            <button type="button" class="btn-close1" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn-default" onclick="confirmarPedidoTomado();">Confirmar</button>
-        </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modalConfirmarEntregado" tabindex="-1" aria-labelledby="modalConfirmarEntregadoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-3" id="modalConfirmarEntregadoLabel">Confirmación de pedido</h1>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                <div class="row text-center"  style="color: white;">
+                    <p class="fs-5 fw-bold">¿Está seguro de que ya está entregado el pedido?</p>
+                </div>
+                </div>
+            </div>
+            <div class="modal-footer centrar-div">
+                <button type="button" class="btn-close1" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn-default" onclick="estadoEntregado();">Confirmar</button>
+            </div>
+            </div>
+        </div>
     </div>
 
     <div class="modal fade" id="modalInfoProducto" tabindex="-1" aria-labelledby="modalInfoProductoLabel" aria-hidden="true">
@@ -191,7 +212,7 @@
                 </div>
                 <div class="row mb-4">
                     <div class="col centrar-div">
-                        <button class="btn-close1 fs-5" onclick="estadoEnDestino();" id="btn-estado-destino">En destino</button>
+                        <button class="btn-close1 fs-5" onclick="estadoEnDestino();" id="btn-estado-destino">Destino</button>
                     </div>
                     <div class="col">
                         <img class="rounded-circle" src="https://img.freepik.com/free-vector/two-storey-house_1308-16176.jpg?w=740&t=st=1690565451~exp=1690566051~hmac=3851aba099585b8c58ecd495c729e57428bfe84474e0d37b845914722cc5f3b9" alt="Imagen de repartidor" srcset="">
@@ -202,7 +223,7 @@
                         <img class="rounded-circle" src="https://cdn.artboard.studio/private/social_64926e32cfcfe5001c3b24d8/projects/64926ef1427f4b001cc3919c/9a294a55-0997-4371-ab44-8ec31012968f-image.png" alt="Imagen de tienda" srcset="">
                     </div>
                     <div class="col centrar-div">
-                        <button class="btn-close1 fs-5" onclick="estadoEntregado();" id="btn-estado-entregado">Entregado</button>
+                        <button class="btn-close1 fs-5" data-bs-toggle="modal" data-bs-target="#modalConfirmarEntregado" id="btn-estado-entregado">Entregado</button>
                     </div>
                 </div>
               </div>

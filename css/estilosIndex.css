@@ -2,11 +2,15 @@
 body{
     background-image: url('../img/background.jpeg');
     font-family: 'Ubuntu', sans-serif;
+    box-sizing: border-box;
 }
 
 header{
     height: 3rem;
     background-color: black;
+    width: 100%;
+    position: absolute;
+    top: 0;
 }
 
 footer{
@@ -24,6 +28,7 @@ footer{
 .login-formulario{
     background-color: black;
     color: #fd8d07;
+    width: 100%;
 }
 
 .anchor-olvidar-contrasena{
@@ -39,4 +44,17 @@ footer{
     color: black;
     text-decoration: none;
     font-size: 1.5rem;
+}
+
+.centrar-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+    .mt-5{
+        margin-top: 10rem !important;
+    }
 }

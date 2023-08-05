@@ -165,6 +165,7 @@ var pedidoTomado={};
 var indexPedidoTomado;
 var modalConfirmarPedido = new bootstrap.Modal(document.getElementById('modalConfirmarPedido'));
 var modalEstadoPedido = new bootstrap.Modal(document.getElementById('modalEstadoPedido'));
+var modalConfirmarEntregado = new bootstrap.Modal(document.getElementById('modalConfirmarEntregado'));
 
 //localStorage
 var localstorage=window.localStorage;
@@ -518,7 +519,7 @@ const estadoEntregado = () =>{
     repartidor.pedidoTomados.splice(repartidor.pedidoTomados.indexOf(pedidoTomado),1);
 
     //Cerrar Modal y mostrar el apartado de pedidos Entregados
-    modalEstadoPedido.hide();
+    modalConfirmarEntregado.hide();
     visualizarEntregas();
 }
 

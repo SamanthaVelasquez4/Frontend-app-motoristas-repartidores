@@ -11,19 +11,24 @@
         <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="img/icon.png" type="image/x-icon">
     </head>
-    <body class="grid text-center">
+    <body class="text-center centrar-div">
         <header></header>
 
-        <div class="logo mt-5 mb-3">
-            <img src="img/logo.jpeg" alt="Logo Speed Sport" srcset="">
-        </div>
-
-        <div class="login-formulario grid text-center m-5 p-4 rounded-4 fw-bolder">
-            <p class="fs-1">Inicia sesión</p>
-            <input type="text" name="" id="usuario" placeholder="Usuario" class="mb-3 mt-1 form-control text-center fw-medium">
-            <input type="password" name="" id="password" placeholder="Contraseña" class="mb-2 form-control text-center fw-medium">
-            <a href="" class="d-block mt-2 mb-1 anchor-olvidar-contrasena fst-italic p-2">¿Olvidaste tu contraseña?</a> 
-            <a href="principal.html" class="anchor-ingresar rounded-5 m-auto mb-2 " id="anchor-verificar-ingreso" onclick="verificarLogin()">Aceptar</a>
+        <div class="row container-fluid">
+            <div class="col-12 col-xxl-6 col-xl-6 col-lg-6 col-md-12 ms-2 centrar-div mt-5 pt-5">
+                <div class="logo mb-3">
+                    <img src="img/logo.jpeg" alt="Logo Speed Sport" srcset="">
+                </div>
+            </div>
+            <div class="col centrar-div mt-5" >
+                <div class="login-formulario text-center p-4 rounded-4 fw-bolder">
+                    <p class="fs-1">Inicia sesión</p>
+                    <input type="text" name="" id="usuario" placeholder="Usuario" class="mb-3 mt-1 form-control text-center fw-medium">
+                    <input type="password" name="" id="password" placeholder="Contraseña" class="mb-2 form-control text-center fw-medium">
+                    <a href="" class="d-block mt-2 mb-1 anchor-olvidar-contrasena fst-italic p-2">¿Olvidaste tu contraseña?</a> 
+                    <a href="principal.html" class="anchor-ingresar rounded-5 m-auto mb-2 " id="anchor-verificar-ingreso" onclick="verificarLogin()">Aceptar</a>
+                </div>
+            </div>
         </div>
 
         <footer></footer>

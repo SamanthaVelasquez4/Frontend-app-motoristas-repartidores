@@ -21,10 +21,10 @@ header{
 
 .alerta-mensaje-nuevo{
     position: absolute;
-    width: 13px;
-    height: 13px;
+    width: 15px;
+    height: 15px;
     background-color: green;
-    right: 43px;
+    right: 44px;
     top: 3px;
 }
 
@@ -198,4 +198,17 @@ footer{
     position: absolute;
     bottom: 0; 
     width: 100%;
+}
+
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) { 
+    header{
+        height: 4rem;
+    }
+
+    .alerta-mensaje-nuevo {
+        right: 43px;
+        top: 20px;
+    }
 }
