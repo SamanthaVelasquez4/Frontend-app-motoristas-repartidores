@@ -400,6 +400,7 @@ const confirmarPedidoTomado = () =>{
     //Cerrar modal y mostrar apartado de tomados
     modalConfirmarPedido.hide();
     visualizarTomados();
+    document.getElementById('contenedor-de-pedidos').scrollTop= document.getElementById('contenedor-de-pedidos').scrollHeight;
 }
 
 const visualizarInfoPedido = (id, tipo) =>{
@@ -521,6 +522,7 @@ const estadoEntregado = () =>{
     //Cerrar Modal y mostrar el apartado de pedidos Entregados
     modalConfirmarEntregado.hide();
     visualizarEntregas();
+    document.getElementById('contenedor-de-pedidos').scrollTop= document.getElementById('contenedor-de-pedidos').scrollHeight;
 }
 
 //calculos
