@@ -31,25 +31,26 @@ footer{
     width: 100%;
 }
 
-.anchor-olvidar-contrasena{
-    color: #fd8d07;
-    font-size: 0.8rem;
-
-}
-
-.anchor-ingresar{
+.btn-ingresar{
     background-color: #fd8d07;
     cursor: pointer;
     padding: 5px 20px;
     color: black;
     text-decoration: none;
     font-size: 1.5rem;
+    border: 0;
 }
 
 .centrar-div{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#error{
+    display: none;
+    color: #fd8d07;
+    font-size: 0.8rem;
 }
 
 /*Large devices (desktops, 992px and up)*/

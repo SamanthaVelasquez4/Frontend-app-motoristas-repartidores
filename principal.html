@@ -47,9 +47,25 @@
     </div>
 
     <div class="renderizar-pedidos me-3 ms-3 rounded-3 overflow-auto" id="contenedor-de-pedidos">
-        <div class="container pt-3 ps-2 pe-2" id="pagina-pedidos"></div>
-        <div class="container pt-3 ps-2 pe-2" id="pagina-tomados"></div>
-        <div class="container pt-3 ps-2 pe-2" id="pagina-entregas"></div>
+        <div class="container pt-3 ps-2 pe-2" id="pagina-pedidos">
+            <div class="vacio" style="color: #ffffff;">
+                <i class="fa-solid fa-magnifying-glass fa-fade"></i>
+                Buscando pedidos...
+            </div>
+            
+        </div>
+        <div class="container pt-3 ps-2 pe-2" id="pagina-tomados">
+            <div class="vacio" style="color: #ffffff;">
+                <i class="fa-regular fa-clock fa-spin"></i>
+                No hay pedidos tomado...
+            </div>
+        </div>
+        <div class="container pt-3 ps-2 pe-2" id="pagina-entregas">
+            <div class="vacio" style="color: #ffffff;">
+                <i class="fa-regular fa-folder-open fa-bounce"></i>
+                No hay pedidos entregados...
+            </div>
+        </div>
     </div>
     <footer></footer>
 
@@ -74,7 +90,7 @@
             </div>
             </div>
             <div class="modal-footer centrar-div">
-            <button type="button" class="btn-default" data-bs-target="#modalCambioContraseña" data-bs-toggle="modal">Cambiar Contraseña</button>
+            <button type="button" class="btn-default" data-bs-target="#modalCambioContraseña" data-bs-toggle="modal" onclick="contrasena();">Cambiar Contraseña</button>
             <button type="button" class="btn-close1" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
@@ -88,13 +104,18 @@
             <h1 class="modal-title fs-3" id="">Cambiar contraseña</h1>
         </div>
         <div class="modal-body">
-            <input type="password" placeholder="Introduzca contraseña actual" class="mb-2 form-control text-center fw-medium">
-            <input type="password" placeholder="Nueva contraseña" class="mb-2 mt-4 form-control text-center fw-medium">
-            <input type="password" placeholder="Verificar nueva contraseña" class="mb-2 form-control text-center fw-medium">
+            <input type="password" placeholder="Introduzca contraseña actual" class="mb-2 form-control text-center fw-medium" id="contrasena-actual">
+            <input type="password" placeholder="Nueva contraseña" class="mb-2 mt-4 form-control text-center fw-medium" id="contrasena-input" oninput="verificarContrasena();">
+            <div style="position: relative;">
+                <input type="password" placeholder="Verificar nueva contraseña" class="mb-2 form-control text-center fw-medium" id="verificar-contrasena-input" oninput="verificarContrasena();">
+                <div class="verificacion" id="verificacion-contra"></div>
+            </div>
+            <p class="mt-2 mb-1 fst-italic p-2 text-center " id="error-contra">No se pudo actualizar contraseña</p>
+            
         </div>
         <div class="modal-footer centrar-div">
             <button class="btn-close1" data-bs-target="#modalUsuario" data-bs-toggle="modal">Cancelar</button>
-            <button class="btn-default">Guardar cambios</button>
+            <button class="btn-default" onclick="guardarContrasena();">Guardar cambios</button>
         </div>
         </div>
     </div>
@@ -195,6 +216,14 @@
             <div class="modal-body">
               <div class="container-fluid">
                 <div class="row mb-4">
+                    <div class="col">
+                        <img class="rounded-circle" src="https://cdn.artboard.studio/private/social_64926e32cfcfe5001c3b24d8/projects/64926ef1427f4b001cc3919c/298789fb-1009-4123-b7c3-a83f376f4803-image.png" alt="Imagen de repartidor" srcset="">
+                    </div>
+                    <div class="col centrar-div">
+                        <button class="btn-close1 fs-5" id="btn-estado-camino">En camino</button>
+                    </div>
+                </div>
+                <div class="row mb-4">
                     <div class="col centrar-div">
                         <button class="btn-close1 fs-5" onclick="estadoEnTienda();" id="btn-estado-tienda">En tienda</button>
                     </div>
@@ -204,26 +233,18 @@
                 </div>
                 <div class="row mb-4">
                     <div class="col">
-                        <img class="rounded-circle" src="https://cdn.artboard.studio/private/social_64926e32cfcfe5001c3b24d8/projects/64926ef1427f4b001cc3919c/298789fb-1009-4123-b7c3-a83f376f4803-image.png" alt="Imagen de repartidor" srcset="">
+                        <img class="rounded-circle" src="https://img.freepik.com/free-vector/two-storey-house_1308-16176.jpg?w=740&t=st=1690565451~exp=1690566051~hmac=3851aba099585b8c58ecd495c729e57428bfe84474e0d37b845914722cc5f3b9" alt="Imagen de repartidor" srcset="">
                     </div>
-                    <div class="col centrar-div">
-                        <button class="btn-close1 fs-5" onclick="estadoEnCamino();" id="btn-estado-camino">En camino</button>
-                    </div>
-                </div>
-                <div class="row mb-4">
                     <div class="col centrar-div">
                         <button class="btn-close1 fs-5" onclick="estadoEnDestino();" id="btn-estado-destino">Destino</button>
                     </div>
-                    <div class="col">
-                        <img class="rounded-circle" src="https://img.freepik.com/free-vector/two-storey-house_1308-16176.jpg?w=740&t=st=1690565451~exp=1690566051~hmac=3851aba099585b8c58ecd495c729e57428bfe84474e0d37b845914722cc5f3b9" alt="Imagen de repartidor" srcset="">
-                    </div>
                 </div>
                 <div class="row">
-                    <div class="col">
-                        <img class="rounded-circle" src="https://cdn.artboard.studio/private/social_64926e32cfcfe5001c3b24d8/projects/64926ef1427f4b001cc3919c/9a294a55-0997-4371-ab44-8ec31012968f-image.png" alt="Imagen de tienda" srcset="">
-                    </div>
                     <div class="col centrar-div">
                         <button class="btn-close1 fs-5" data-bs-toggle="modal" data-bs-target="#modalConfirmarEntregado" id="btn-estado-entregado">Entregado</button>
+                    </div>
+                    <div class="col">
+                        <img class="rounded-circle" src="https://cdn.artboard.studio/private/social_64926e32cfcfe5001c3b24d8/projects/64926ef1427f4b001cc3919c/9a294a55-0997-4371-ab44-8ec31012968f-image.png" alt="Imagen de tienda" srcset="">
                     </div>
                 </div>
               </div>
@@ -232,6 +253,17 @@
               <button type="button" class="btn-close1" data-bs-dismiss="modal">Close</button>
             </div>
           </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalWarning" tabindex="-1" aria-labelledby="modalWarningLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content" style="background-image: url('');" >
+            <div class="modal-body">
+                <img style="width: 100%;" src="https://img.freepik.com/free-vector/500-internal-server-error-concept-illustration_114360-1924.jpg?w=996&t=st=1692851177~exp=1692851777~hmac=80300129675d023680f55075a9e28b2011e7b7bada7bde82d6f2ca102bb7264f" alt="">
+                <p class="text-center">¡Ooops, error en el servidor intente de nuevo más tarde!</p>
+            </div>
+        </div>
         </div>
     </div>
 

@@ -55,6 +55,24 @@ header{
     color: black !important;
 }
 
+.verificacion{
+    width: 13px;
+    height: 13px;
+    background-color: red;
+    border-radius: 20px;
+    position: absolute;
+    right: 10px;
+    top: 13px;
+}
+
+#error-contra{
+
+    color: #fd8d07;
+    font-size: 1rem;
+    font-weight: bold;
+
+}
+
 .triangulos .col{
     color: #fd8d07;
     font-size: 2.5rem;
@@ -75,6 +93,12 @@ header{
 .renderizar-pedidos .row img{
     width: 100%;
 } 
+
+.vacio i{
+    font-size: 2rem;
+    margin: 1rem;
+
+}
 
 .centrar-div{
     display: flex;
@@ -127,6 +151,11 @@ header{
 
 #pagina-tomados, #pagina-entregas{
     display: none;
+}
+
+.titulo-id{
+    font-size: 0.8rem;
+    font-weight: bold;
 }
 
 .modal-content{

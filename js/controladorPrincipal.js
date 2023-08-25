@@ -1,178 +1,54 @@
-var pedidos=[
-    {
-        id:11,
-        factura:{
-            id:5,
-            fecha: "12/7/10",
-            cliente: {
-                primerNombre: "Mario",
-                primerApellido: "Martinez",
-                numTelefono:"5896-5235"
-            },
-            empresa:{
-                nombre: "Blalala",
-                direccion: "Mall Multiplaza",
-            },
-            productos:[
-                {
-                    producto: {
-                        nombre: "Camisa",
-                        precio: 100, 
-                    },
-                    cantidad: 2,
-                },
-                {
-                    producto: {
-                        nombre: "Leggin",
-                        precio: 200, 
-                    },
-                    cantidad: 1,
-                },
-                {
-                    producto: {
-                        nombre: "Tenis",
-                        precio: 1000, 
-                    },
-                    cantidad: 1,
-                },
-                {
-                    producto: {
-                        nombre: "Camisa",
-                        precio: 500, 
-                    },
-                    cantidad: 2,
-                },
-                
-            ],
-        },
-        costoEnvio:80,
-        ubicacion: "Aldea de Suyapa",
-        calificacion: null,
-        estado:"Buscando Repartidor",
-        imagenPedido: "img/producto3.webp",
-        motorista:{
-            primerNombre: null,
-            primerApellido: null,
-            calificacion:null,
-            tipoVehiculo:null,
-            placa:null,
-            numTelefono:null,
-        }
-    },
-    {
-        id:12,
-        factura:{
-            id:12,
-            fecha: "12/7/10",
-            cliente: {
-                primerNombre: "Mario",
-                primerApellido: "Martinez",
-                numTelefono:"5896-5235"
-            },
-            empresa:{
-                nombre: "SportLine",
-                direccion: "Mall Multiplaza",
-            },
-            productos:[
-                {
-                    producto: {
-                        nombre: "Camisa",
-                        precio: 100, 
-                    },
-                    cantidad: 2,
-                },
-                {
-                    producto: {
-                        nombre: "Leggin",
-                        precio: 200, 
-                    },
-                    cantidad: 1,
-                },                
-            ],
-        },
-        costoEnvio:80,
-        ubicacion: "Aldea de Suyapa",
-        calificacion: null,
-        estado:null,
-        imagenPedido: "img/producto.png",
-        motorista:{
-            primerNombre: null,
-            primerApellido: null,
-            calificacion:null,
-            tipoVehiculo:null,
-            placa:null,
-            numTelefono:null,
-        }
-    },
-    {
-        id:13,
-        factura:{
-            id:5,
-            fecha: "12/7/10",
-            cliente: {
-                primerNombre: "Ana",
-                primerApellido: "Martinez",
-                numTelefono:"5896-5235"
-            },
-            empresa:{
-                nombre: "Nike",
-                direccion: "Res. las hadas",
-            },
-            productos:[
-                {
-                    producto: {
-                        nombre: "Camisa",
-                        precio: 100, 
-                    },
-                    cantidad: 2,
-                },
-                {
-                    producto: {
-                        nombre: "Leggin",
-                        precio: 200, 
-                    },
-                    cantidad: 1,
-                },
-                {
-                    producto: {
-                        nombre: "Tenis",
-                        precio: 1000, 
-                    },
-                    cantidad: 1,
-                },
-            ],
-        },
-        costoEnvio:80,
-        ubicacion: "Col. Kennedy",
-        calificacion: null,
-        estado:"Buscando repartidor",
-        imagenPedido:"img/producto2.jpg",
-        motorista:{
-            primerNombre: null,
-            primerApellido: null,
-            calificacion:null,
-            tipoVehiculo:null,
-            placa:null,
-            numTelefono:null,
-        }
-    },
-]
+let pedidos=[];
 
 //variables globales
-var repartidor={};
-var pedidoVisualizado={};
-var pedidoTomado={};
-var indexPedidoTomado;
-var modalConfirmarPedido = new bootstrap.Modal(document.getElementById('modalConfirmarPedido'));
-var modalEstadoPedido = new bootstrap.Modal(document.getElementById('modalEstadoPedido'));
-var modalConfirmarEntregado = new bootstrap.Modal(document.getElementById('modalConfirmarEntregado'));
+let idRepartidor;
+let repartidor={};
+let pedidoTomado;
+let indexPedidoTomado;
+const modalConfirmarPedido = new bootstrap.Modal(document.getElementById('modalConfirmarPedido'));
+const modalEstadoPedido = new bootstrap.Modal(document.getElementById('modalEstadoPedido'));
+const modalConfirmarEntregado = new bootstrap.Modal(document.getElementById('modalConfirmarEntregado'));
+const modalWarning= new bootstrap.Modal(document.getElementById('modalWarning'));
+const modalInfoProducto= new bootstrap.Modal(document.getElementById('modalInfoProducto'));
+const modalCambioContraseña= new bootstrap.Modal(document.getElementById('modalCambioContraseña'));
+let mensajes=[];
 
 //localStorage
 var localstorage=window.localStorage;
-repartidor= JSON.parse(localstorage.getItem('repartidor'));
+let almacenado= JSON.parse(localstorage.getItem('repartidor'));
+
+//Obtener respartidor
+const obtenerRepartidor = async() =>{
+    try{
+        let respuesta = await fetch(`http://localhost:5555/motoristas/${idRepartidor}`,
+        {
+        method: 'GET',
+            headers: {
+                "Content-Type": "application/json", //MIME type 
+            },
+        });
+
+        let a = await respuesta.json();
+        if(a.status){
+            repartidor=a.respuesta;
+            mensajes=repartidor.mensajes;
+            renderizarMensajes();
+            //console.log(repartidor);
+        }else{
+            console.log(a);
+            modalWarning.show();
+        }
+    }catch{
+        modalWarning.show();
+        //console.log('entra aqui');
+        window.location.href="index.html";
+    }
+ 
+    /*window.location.href="../index.html";*/
+ }
 
 //Funciones para la navegacion entre los Pedidos, Pedidos Tomados y Pedidos Entregados
-const visualizarPedidos = () =>{
+const visualizarPedidos = async() =>{
     //mostrar triangulo correspondiente a pedidos
     document.getElementById('triangulo-pedidos').innerHTML=`<i class="fa-solid fa-caret-down"></i>`;
     document.getElementById('triangulo-tomados').innerHTML=``;
@@ -191,30 +67,61 @@ const visualizarPedidos = () =>{
     //renderizar pedidos
     document.getElementById('pagina-pedidos').innerHTML="";
 
-    pedidos.forEach(pedido => {
-        document.getElementById('pagina-pedidos').innerHTML+=
-        `<div class="row rounded-2 mb-3 pt-2 pb-2" data-bs-toggle="modal" data-bs-target="#modalInfoProducto" onclick="visualizarInfoPedido(${pedido.id}, 'pedido')">
-            <div class="col-4 centrar-div"> 
-                <img src="${pedido.imagenPedido}" alt="">
-            </div>
-            <div class="col-8 grid">
-                <div class="row text-center">
-                    <p class="fw-bold">Pedido #${pedido.id}</p>
-                    <p class="fw-bold nombre">${pedido.factura.cliente.primerNombre} ${pedido.factura.cliente.primerApellido}</p>
-                    <p class="telefono">${pedido.factura.cliente.numTelefono}</p>
-                    <p class=" fw-bold comision">Comisión: ${pedido.costoEnvio} lps</p>
-                    <p class="fst-italic direccion">${pedido.ubicacion}</p>
-                </div>
-                <div class="text-end">
-                    <button type="button" class="btn-default mt-2" data-bs-toggle="modal" data-bs-target="#modalConfirmarPedido" onclick="tomarPedido(${pedido.id});">Tomar Pedido</button>
-                </div> 
-            </div>
-        </div>`;
-    });
+    try{
+        let respuesta = await fetch('http://localhost:5555/pedidos/obtener/Pedido',
+        {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json", //MIME type 
+            },
+        });
+
+        let a = await respuesta.json();
+        if(a.status && a.respuesta.length>0){
+            pedidos=a.respuesta;
+            document.getElementById('pagina-pedidos').innerHTML="";
+            pedidos.forEach(pedido => {
+                let factura=pedido.factura[0]
+                document.getElementById('pagina-pedidos').innerHTML+=
+                `<div class="row rounded-2 mb-3 pt-2 pb-2" data-bs-toggle="modal" data-bs-target="#modalInfoProducto" onclick="visualizarInfoPedido('${pedido._id}')">
+                    <div class="col-4 centrar-div"> 
+                        <img src="${pedido.img}" alt="">
+                    </div>
+                    <div class="col-8 grid">
+                        <div class="row text-center">
+                            <p class="titulo-id" >${pedido._id}</p>
+                            <p class="fw-bold nombre">${factura.cliente.nombre}</p>
+                            <p class="telefono">${factura.cliente.numTelefono}</p>
+                            <p class=" fw-bold comision">Comisión: ${pedido.costoEnvio} lps</p>
+                            <p class="fst-italic direccion">${pedido.ubicacion}</p>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" style="font-size:0.8rem;" class="btn-default mt-2" data-bs-toggle="modal" data-bs-target="#modalConfirmarPedido" onclick="tomarPedido('${pedido._id}');">Tomar Pedido</button>
+                        </div> 
+                    </div>
+                </div>`;
+            });
+        }else if(a.respuesta.length<=0){
+            document.getElementById('pagina-pedidos').innerHTML=
+            `<div class="vacio" style="color: #ffffff;">
+                <i class="fa-solid fa-magnifying-glass fa-fade"></i>
+                Buscando pedidos...
+            </div>`;
+            
+        }else{
+            console.log(a);
+            modalWarning.show();
+        }
+    }catch{
+        modalWarning.show();
+        console.log('entra aqui')
+    }
+
+    
 }
 
 
-const visualizarTomados = () =>{
+const visualizarTomados = async() =>{
     document.getElementById('triangulo-pedidos').innerHTML=``;
     document.getElementById('triangulo-tomados').innerHTML=`<i class="fa-solid fa-caret-down"></i>`;
     document.getElementById('triangulo-entregados').innerHTML=``;
@@ -228,30 +135,58 @@ const visualizarTomados = () =>{
     document.getElementById('pagina-entregas').style.display="none";
 
     //renderizar pedidos tomados
-    document.getElementById('pagina-tomados').innerHTML="";
-    repartidor.pedidoTomados.forEach(pedido => {
-        document.getElementById('pagina-tomados').innerHTML+=
-        `<div class="row rounded-2 mb-3 pt-2 pb-2" data-bs-toggle="modal" data-bs-target="#modalInfoProducto" onclick="visualizarInfoPedido(${pedido.id}, 'tomado')">
-            <div class="col-4 centrar-div"> 
-                <img src="${pedido.imagenPedido}" alt="">
-            </div>
-            <div class="col-8 grid">
-                <div class="row text-center">
-                    <p class="fw-bold">Pedido #${pedido.id}</p>
-                    <p class="fw-bold nombre">${pedido.factura.cliente.primerNombre} ${pedido.factura.cliente.primerApellido}</p>
-                    <p class="telefono">${pedido.factura.cliente.numTelefono}</p>
-                    <p class=" fw-bold comision">Comisión: ${pedido.costoEnvio} lps</p>
-                    <p class="fst-italic direccion">${pedido.ubicacion}</p>
-                </div>
-                <div class="text-end">
-                    <button type="button" class="btn-default mt-2" data-bs-toggle="modal" data-bs-target="#modalEstadoPedido" onclick="informacionEstado(${pedido.id})">Estado</button>
-                </div> 
-            </div>
-        </div>`;
-    })
+    try{
+        let respuesta = await fetch(`http://localhost:5555/motoristas/${idRepartidor}/obtenerPedidos/Tomado`,
+        {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json", //MIME type 
+            },
+        });
+
+        let a = await respuesta.json();
+        if(a.status && a.respuesta.length>0){
+            let pedidoTomados=a.respuesta;
+            document.getElementById('pagina-tomados').innerHTML="";
+            pedidoTomados.forEach(pedido => {
+                let factura=pedido.factura[0];
+                document.getElementById('pagina-tomados').innerHTML+=
+                `<div class="row rounded-2 mb-3 pt-2 pb-2" data-bs-toggle="modal" data-bs-target="#modalInfoProducto" onclick="visualizarInfoPedido('${pedido._id}')">
+                    <div class="col-4 centrar-div"> 
+                        <img src="${pedido.img}" alt="">
+                    </div>
+                    <div class="col-8 grid">
+                        <div class="row text-center">
+                            <p class="titulo-id">${pedido._id}</p>
+                            <p class="fw-bold nombre">${factura.cliente.nombre}</p>
+                            <p class="telefono">${factura.cliente.numTelefono}</p>
+                            <p class=" fw-bold comision">Comisión: ${pedido.costoEnvio} lps</p>
+                            <p class="fst-italic direccion">${pedido.ubicacion}</p>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn-default mt-2" data-bs-toggle="modal" data-bs-target="#modalEstadoPedido" onclick="informacionEstado('${pedido._id}', '${pedido.estadoCliente}')">Estado</button>
+                        </div> 
+                    </div>
+                </div>`;
+            })
+        }else if(a.respuesta.length<=0){
+            document.getElementById('pagina-tomados').innerHTML=
+            `<div class="vacio" style="color: #ffffff;">
+                <i class="fa-regular fa-clock fa-spin"></i>
+                No hay pedidos tomado...
+            </div>`;
+        }else{
+            console.log(a);
+            modalWarning.show();
+        }
+    }catch{
+        modalWarning.show();
+        //console.log('entra aqui')
+    }
+   
 }
 
-const visualizarEntregas = () =>{
+const visualizarEntregas = async() =>{
     document.getElementById('triangulo-pedidos').innerHTML=``;
     document.getElementById('triangulo-tomados').innerHTML=``;
     document.getElementById('triangulo-entregados').innerHTML=`<i class="fa-solid fa-caret-down"></i>`;
@@ -264,40 +199,69 @@ const visualizarEntregas = () =>{
     document.getElementById('pagina-tomados').style.display="none";
     document.getElementById('pagina-entregas').style.display="block";
 
-    //renderizar pedidos entregados
-    document.getElementById('pagina-entregas').innerHTML="";
-    repartidor.pedidoEntregados.forEach(pedido =>{
-        let texto="";
-        for(let i=0; i<pedido.calificacion;i++){
-            texto+=`<i class="fa-solid fa-star" style="color: #fd8d07;"></i>`;
+    try{
+        let respuesta = await fetch(`http://localhost:5555/motoristas/${idRepartidor}/obtenerPedidos/Entregado`,
+        {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json", //MIME type 
+            },
+        });
+
+        let a = await respuesta.json();
+        if(a.status && a.respuesta.length>0){
+           let pedidoEntregados=a.respuesta;
+           //renderizar pedidos entregados
+            document.getElementById('pagina-entregas').innerHTML="";
+            pedidoEntregados.forEach(pedido =>{
+                //console.log(pedido);
+                let factura= pedido.factura[0];
+                let texto="";
+                for(let i=0; i<pedido.calificacion;i++){
+                    texto+=`<i class="fa-solid fa-star" style="color: #fd8d07;"></i>`;
+                }
+                for(let i=0; i<5-pedido.calificacion;i++){
+                    texto+=`<i class="fa-solid fa-star"></i>`;
+                }
+                document.getElementById('pagina-entregas').innerHTML+=
+                `<div class="row rounded-2 mb-3 pt-2 pb-2" data-bs-toggle="modal" data-bs-target="#modalInfoProducto" onclick="visualizarInfoPedido('${pedido._id}')">
+                    <div class="col-4 centrar-div"> 
+                        <img src="${pedido.img}" alt="">
+                    </div>
+                    <div class="col-8 grid">
+                        <div class="row text-center">
+                            <p class="titulo-id">${pedido._id}</p>
+                            <p class="fw-bold nombre">${factura.cliente.nombre}</p>
+                            <p class="telefono">${factura.cliente.numTelefono}</p>
+                            <p class=" fw-bold comision">Comisión: ${pedido.costoEnvio} lps</p>
+                            <p class="fst-italic direccion">${pedido.ubicacion}</p>
+                        </div>
+                        <div class="text-center">
+                            ${texto}
+                        </div> 
+                    </div>
+                </div>`; 
+            })
+        }else if(a.respuesta.length<=0){
+            document.getElementById('pagina-entregas').innerHTML=
+            `<div class="vacio" style="color: #ffffff;">
+                <i class="fa-regular fa-folder-open fa-bounce"></i>
+                No hay pedidos entregados...
+            </div>`;
         }
-        for(let i=0; i<5-pedido.calificacion;i++){
-            texto+=`<i class="fa-solid fa-star"></i>`;
+        else{
+            console.log(a);
+            modalWarning.show();
         }
-        document.getElementById('pagina-entregas').innerHTML+=
-        `<div class="row rounded-2 mb-3 pt-2 pb-2" data-bs-toggle="modal" data-bs-target="#modalInfoProducto" onclick="visualizarInfoPedido(${pedido.id}, 'entrega')">
-            <div class="col-4 centrar-div"> 
-                <img src="${pedido.imagenPedido}" alt="">
-            </div>
-            <div class="col-8 grid">
-                <div class="row text-center">
-                    <p class="fw-bold">Pedido #${pedido.id}</p>
-                    <p class="fw-bold nombre">${pedido.factura.cliente.primerNombre} ${pedido.factura.cliente.primerApellido}</p>
-                    <p class="telefono">${pedido.factura.cliente.numTelefono}</p>
-                    <p class=" fw-bold comision">Comisión: ${pedido.costoEnvio} lps</p>
-                    <p class="fst-italic direccion">${pedido.ubicacion}</p>
-                </div>
-                <div class="text-center">
-                    ${texto}
-                </div> 
-            </div>
-        </div>`; 
-    })
+    }catch{
+        modalWarning.show();
+        //console.log('entra aqui')
+    }
 }
 
 //Funciones para el nav del encabezado como ser Ver el perfil y mensajes
 const visualizarPerfil = () =>{
-
+    obtenerRepartidor();
     //Poner imagen del usuario dependiendo el genero
     if(repartidor.genero=="F"){
         document.getElementById('img-perfil-modal').setAttribute('src','img/usuario2.png');
@@ -317,25 +281,24 @@ const visualizarPerfil = () =>{
     //Ver informacion general del usuario
     document.getElementById('info-perfil-modal').innerHTML=
     `<p class="fw-bold">${repartidor.primerNombre} ${repartidor.primerApellido}</p>
-    <p>${repartidor.id}</p>
+    <p>${repartidor._id}</p>
     <p>${repartidor.usuario}</p>
     <p>${repartidor.edad} años</p>
     <p>${repartidor.numTelefono}</p>
-    <p>Pedidos entregados: ${repartidor.pedidoEntregados.length}</p>
-    <p>Ganancias: ${calcularGanancias()} lps</p>`;
+    <p>Pedidos entregados: ${repartidor.pedidoEntregados.length}</p>`;
     
 }
 
 const tomarPedido = (id) =>{
-    pedidoTomado = pedidos.find(element => element.id === id);
+    pedidoTomado =id;
 }
 
 const renderizarMensajes = () =>{
-    let contMensajesLeido=0;
+    let contMensajesNoLeido=0;
     document.getElementById('contenedor-mensajes-modal').innerHTML=``;
-    repartidor.mensajes.forEach((mensaje,i) => {
+    for(let i=0; i< mensajes.length; i++){
+        let mensaje=mensajes[i];
         if(mensaje.estado){
-            contMensajesLeido++;
             document.getElementById('contenedor-mensajes-modal').innerHTML+=
             `<div class="row p-2 mt-2">
                 <div class="col cuerpo-mensaje rounded-3">
@@ -347,6 +310,7 @@ const renderizarMensajes = () =>{
                 </div>
             </div>`;
         }else{
+            contMensajesNoLeido++;
             document.getElementById('contenedor-mensajes-modal').innerHTML+=
             `<div class="row p-2 mt-2">
                 <div class="col cuerpo-mensaje rounded-3">
@@ -359,111 +323,171 @@ const renderizarMensajes = () =>{
                 </div>
             </div>`;
         }   
-    });
-
+    };
+    //console.log(contMensajesNoLeido);
     //Ver si todos los mensajes estan leidos
-    if(contMensajesLeido==repartidor.mensajes.length){
-        document.getElementById('alerta-mensaje').style.display="none";
-    }else{
+    if(contMensajesNoLeido!=0){
         document.getElementById('alerta-mensaje').style.display="block";
+    }else{
+        document.getElementById('alerta-mensaje').style.display="none";
     }
 }
 
-const leerMensaje= (index) =>{
-    repartidor.mensajes[index].estado=true;
-    renderizarMensajes();
+const leerMensaje= async(index) =>{
+    try{
+        let respuesta = await fetch(`http://localhost:5555/motoristas/${idRepartidor}/mensajeLeido/${index}`,
+        {
+        method: 'PUT',
+            headers: {
+                "Content-Type": "application/json", //MIME type 
+            },
+        });
+
+        let a = await respuesta.json();
+        if(a.status){
+            obtenerRepartidor();
+        }else{
+            console.log(a);
+            modalWarning.show();
+        }
+    }catch{
+        modalWarning.show();
+        //console.log('entra aqui');
+        window.location.href="index.html";
+    }
 }
 
-const borrarMensaje= (index) =>{
-    repartidor.mensajes.splice(index,1);
-    renderizarMensajes();
+const borrarMensaje= async(index) =>{
+    try{
+        let respuesta = await fetch(`http://localhost:5555/motoristas/${idRepartidor}/eliminar/mensaje/${index}/prueba`,
+        {
+        method: 'PUT',
+            headers: {
+                "Content-Type": "application/json", //MIME type 
+            },
+        });
+
+        let a = await respuesta.json();
+        if(a.status){
+            obtenerRepartidor();
+        }else{
+            console.log(a);
+            modalWarning.show();
+        }
+    }catch{
+        modalWarning.show();
+        //console.log('entra aqui');
+        window.location.href="index.html";
+    }
 }
 
 //Funciones para los Modales
-const confirmarPedidoTomado = () =>{
-    //Poner los datos del motorista en el pedido para el cliente
-    pedidoTomado.motorista.primerNombre=repartidor.primerNombre;
-    pedidoTomado.motorista.primerApellido=repartidor.primerApellido;
-    pedidoTomado.motorista.calificacion=repartidor.calificacion;
-    pedidoTomado.motorista.tipoVehiculo=repartidor.tipoVehiculo;
-    pedidoTomado.motorista.placa=repartidor.placa;
-    pedidoTomado.motorista.numTelefono=repartidor.numTelefono;
-    pedidoTomado.estado="En camino";
-    console.log(pedidoTomado);
-
-    //Agregar el pedido al arreglo pedidos Tomados del repartidor
-    repartidor.pedidoTomados.push(pedidoTomado);
-
-    //Borrar el pedido del arregelo de pedidos
-    pedidos.splice(pedidos.indexOf(pedidoTomado),1);
+const confirmarPedidoTomado = async() =>{
+    try{
+        let respuesta = await fetch(`http://localhost:5555/motoristas/${idRepartidor}/pedido/${pedidoTomado}`,
+        {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json", //MIME type 
+            },
+        });
+    
+        let a = await respuesta.json();
+        if(a.status){
+            visualizarTomados();
+            document.getElementById('contenedor-de-pedidos').scrollTop= document.getElementById('contenedor-de-pedidos').scrollHeight;
+        }else{
+            modalWarning.show();
+            console.log(a);
+        }
+    }catch{
+        modalWarning.show();
+    }
 
     //Cerrar modal y mostrar apartado de tomados
     modalConfirmarPedido.hide();
-    visualizarTomados();
-    document.getElementById('contenedor-de-pedidos').scrollTop= document.getElementById('contenedor-de-pedidos').scrollHeight;
 }
 
-const visualizarInfoPedido = (id, tipo) =>{
-    pedidoVisualizado={};
-    if(tipo=="pedido"){
-        pedidoVisualizado= pedidos.find(element => element.id === id);
-    }else if(tipo=="tomado"){
-        pedidoVisualizado= repartidor.pedidoTomados.find(element => element.id === id);
-    }else{
-        pedidoVisualizado=  repartidor.pedidoEntregados.find(element => element.id === id);
+const visualizarInfoPedido = async(id) =>{
+    
+    try{
+        let respuesta = await fetch(`http://localhost:5555/pedidos/${id}`,
+        {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json", //MIME type 
+            },
+        });
+
+        let a = await respuesta.json();
+        if(a.status){
+            let pedidoVisualizado= a.respuesta;
+            let factura=pedidoVisualizado.factura[0];
+            //encabezado
+            document.getElementById('informacion-general-pedido-modal').innerHTML=
+            `<p class="mt-2">Código del pedido</p>
+            <p class="mt-1 fw-bold">${pedidoVisualizado._id}</p>
+            <hr class="m-2">
+            <div>
+            <p class="fw-bold titulo">Información cliente</p>
+            <p>Nombre: ${factura.cliente.nombre}</p>
+            <p>Telefono: ${factura.cliente.numTelefono}</p>
+            <p>Direccion: ${pedidoVisualizado.ubicacion}</p>
+            </div>
+            <hr class="m-2">
+            <p class="fw-bold titulo">Información factura</p>
+            <p class="fw-bold titulo">${pedidoVisualizado._idFactura}</p>
+            <p>Fecha: ${factura.fecha}</p>
+            <p>Empresa: ${factura.empresa.nombre}</p>
+            <p>Dirección: ${factura.empresa.direccion}</p>`;
+
+            //productos
+            document.getElementById('productos-factura').innerHTML=``;
+
+            factura.productos.forEach(producto =>{
+                document.getElementById('productos-factura').innerHTML+=
+                `<tr>
+                    <td>${producto.nombre}</td>
+                    <td>${producto.cantidad}</td>
+                    <td>${producto.precio}</td>
+                </tr>`;
+            });
+
+            document.getElementById('productos-factura').innerHTML+=
+            `<tr>
+                <td>Subtotal</td>
+                <td colspan="2">${factura.subtotal}</td>
+            </tr>
+            <tr>
+                <td>ISV</td>
+                <td colspan="2">${factura.isv}</td>
+            </tr>
+            <tr>
+                <td>Envio</td>
+                <td colspan="2">${pedidoVisualizado.costoEnvio}</td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td colspan="2">${pedidoVisualizado.total}</td>
+            </tr>`;
+
+        }else{
+            console.log(a);
+            modalWarning.show();
+        }
+    }catch{
+        modalWarning.show();
+        console.log('entra aqui');
+        modalInfoProducto.hide();
     }
     
 
-    //encabezado
-    document.getElementById('informacion-general-pedido-modal').innerHTML=
-    `<p class="mt-2 fw-bold titulo">Pedido #${pedidoVisualizado.id}</p>
-    <hr class="m-2">
-    <div>
-    <p class="fw-bold titulo">Informacion cliente</p>
-    <p>Nombre: ${pedidoVisualizado.factura.cliente.primerNombre} ${pedidoVisualizado.factura.cliente.primerApellido}</p>
-    <p>Telefono: ${pedidoVisualizado.factura.cliente.numTelefono}</p>
-    <p>Direccion: ${pedidoVisualizado.ubicacion}</p>
-    </div>
-    <hr class="m-2">
-    <p class="fw-bold titulo">Factura #${pedidoVisualizado.factura.id}</p>
-    <p>Fecha: ${pedidoVisualizado.factura.fecha}</p>
-    <p>Empresa: ${pedidoVisualizado.factura.empresa.nombre}</p>
-    <p>Dirección: ${pedidoVisualizado.factura.empresa.direccion}</p>`;
-
-    //productos
-    document.getElementById('productos-factura').innerHTML=``;
-
-    pedidoVisualizado.factura.productos.forEach(producto =>{
-        document.getElementById('productos-factura').innerHTML+=
-        `<tr>
-            <td>${producto.producto.nombre}</td>
-            <td>${producto.cantidad}</td>
-            <td>${producto.producto.precio}</td>
-        </tr>`;
-    });
-
-    document.getElementById('productos-factura').innerHTML+=
-        `<tr>
-            <td>Subtotal</td>
-            <td colspan="2">${calcularSubtotal()}</td>
-        </tr>
-        <tr>
-            <td>ISV</td>
-            <td colspan="2">${calcularISV()}</td>
-        </tr>
-        <tr>
-            <td>Envio</td>
-            <td colspan="2">${pedidoVisualizado.costoEnvio}</td>
-        </tr>
-        <tr>
-            <td>Total</td>
-            <td colspan="2">${calcularTotal()+pedidoVisualizado.costoEnvio}</td>
-        </tr>`;
+    
 }
 
 //Funciones para el modal de estado
-const informacionEstado = (id) =>{
-    pedidoTomado = repartidor.pedidoTomados.find(element => element.id === id);
+const informacionEstado = async(id, estado) =>{
+    pedidoTomado = id;
 
     let btnCamino= document.getElementById('btn-estado-camino');
     let btnTienda= document.getElementById('btn-estado-tienda');
@@ -471,22 +495,34 @@ const informacionEstado = (id) =>{
     let btnEntrega= document.getElementById('btn-estado-entregado');
 
     //El boton del estado actual va a aparecer de distinto color
-    if(pedidoTomado.estado=="En camino"){
+    if(estado=="En camino"){
+        btnEntrega.disabled=true;
+        btnDestino.disabled=true;
+        btnCamino.disabled=false;
+        btnTienda.disabled=false;
         btnCamino.classList.add('active-btn-estado');
         btnDestino.classList.remove('active-btn-estado');
         btnTienda.classList.remove('active-btn-estado');
         btnEntrega.classList.remove('active-btn-estado');
-    }else if(pedidoTomado.estado=="En tienda"){
+    }else if(estado=="En tienda"){
+        btnCamino.disabled=true;
+        btnEntrega.disabled=true;
+        btnDestino.disabled=false;
+        btnTienda.disabled=false;
         btnTienda.classList.add('active-btn-estado');
         btnDestino.classList.remove('active-btn-estado');
         btnCamino.classList.remove('active-btn-estado');
         btnEntrega.classList.remove('active-btn-estado');
-    }else if(pedidoTomado.estado=="Entregado"){
+    }else if(estado=="Entregado"){
         btnEntrega.classList.add('active-btn-estado');
         btnDestino.classList.remove('active-btn-estado');
         btnTienda.classList.remove('active-btn-estado');
         btnCamino.classList.remove('active-btn-estado');
     }else{
+        btnCamino.disabled=true;
+        btnEntrega.disabled=false;
+        btnDestino.disabled=true;
+        btnTienda.disabled=true;
         btnDestino.classList.add('active-btn-estado');
         btnCamino.classList.remove('active-btn-estado');
         btnTienda.classList.remove('active-btn-estado');
@@ -494,68 +530,140 @@ const informacionEstado = (id) =>{
     }
 }
 
-const estadoEnTienda = () =>{
-    pedidoTomado.estado="En tienda";
+const estadoEnTienda = async() =>{
+    try{
+        let body={
+            estadoCliente: "En tienda"
+        }
+        let respuesta = await fetch(`http://localhost:5555/pedidos/${pedidoTomado}/cambiarEstadoCliente`,
+        {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json", //MIME type 
+            },
+            "body": JSON.stringify(body)
+        });
+    
+        let a = await respuesta.json();
+        if(a.status){
+            visualizarTomados();
+        }else{
+            modalWarning.show();
+        }
+    }catch{
+        modalWarning.show();
+    }
     modalEstadoPedido.hide();
 }
 
-const estadoEnCamino = () =>{
-    console.log(pedidoTomado);
-    pedidoTomado.estado= "En camino";
+const estadoEnDestino = async() =>{
+    try{
+        let body={
+            estadoCliente: "En destino"
+        }
+        let respuesta = await fetch(`http://localhost:5555/pedidos/${pedidoTomado}/cambiarEstadoCliente`,
+        {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json", //MIME type 
+            },
+            "body": JSON.stringify(body)
+        });
+    
+        let a = await respuesta.json();
+        if(a.status){
+            visualizarTomados();
+        }else{
+            modalWarning.show();
+        }
+    }catch{
+        modalWarning.show();
+    }
     modalEstadoPedido.hide();
 }
 
-const estadoEnDestino = () =>{
-    pedidoTomado.estado="En destino";
-    modalEstadoPedido.hide();
+const estadoEntregado = async() =>{
+    try{
+        let respuesta = await fetch(`http://localhost:5555/motoristas/${idRepartidor}/pedido/entregado/${pedidoTomado}`,
+        {
+        method: 'PUT',
+            headers: {
+                "Content-Type": "application/json", //MIME type 
+            },
+        });
+
+        let a = await respuesta.json();
+        if(a.status){
+            modalConfirmarEntregado.hide();
+            visualizarEntregas();
+            document.getElementById('contenedor-de-pedidos').scrollTop= document.getElementById('contenedor-de-pedidos').scrollHeight;
+        }else{
+            console.log(a);
+            modalWarning.show();
+        }
+    }catch{
+        modalWarning.show();
+        //console.log('entra aqui');
+        window.location.href="index.html";
+    }
+    
 }
 
-const estadoEntregado = () =>{
-    pedidoTomado.estado ="Entregado";
-
-    //Pasar el pedido a entrgados del repartidor
-    repartidor.pedidoEntregados.push(pedidoTomado);
-
-    //Borrar el pedido del arreglo de tomados
-    repartidor.pedidoTomados.splice(repartidor.pedidoTomados.indexOf(pedidoTomado),1);
-
-    //Cerrar Modal y mostrar el apartado de pedidos Entregados
-    modalConfirmarEntregado.hide();
-    visualizarEntregas();
-    document.getElementById('contenedor-de-pedidos').scrollTop= document.getElementById('contenedor-de-pedidos').scrollHeight;
+//verificar Contraseña
+const verificarContrasena = ()=>{
+    if(document.getElementById('verificar-contrasena-input').value==document.getElementById('contrasena-input').value && document.getElementById('contrasena-input').value!="" && document.getElementById('verificar-contrasena-input').value!=""){
+        document.getElementById('verificacion-contra').style.backgroundColor="green";
+        return true;
+    }else{
+        document.getElementById('verificacion-contra').style.backgroundColor="red";
+        return false;
+    }
 }
 
-//calculos
-const calcularGanancias = () => {
-    let ganancia=0;
-    repartidor.pedidoEntregados.forEach(pedido => {
-        ganancia+=pedido.costoEnvio;
-    });
-    return ganancia;
+//guardar contraseña
+const guardarContrasena = async() =>{
+
+    if(verificarContrasena && document.getElementById('contrasena-actual').value!="" ){
+        let body={
+            usuario: repartidor.usuario,
+            contrasena: document.getElementById('contrasena-actual').value,
+            nuevaContrasena: document.getElementById('verificar-contrasena-input').value
+        }
+        try{
+            let respuesta = await fetch('http://localhost:5555/motoristas/actalizar/contrasena',
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json", //MIME type 
+                },
+                body: JSON.stringify(body)
+            });
+    
+            let a = await respuesta.json();
+            if(a.status){
+                modalCambioContraseña.hide();
+            }else{
+                
+            }
+        }catch{
+            modalWarning.show();
+            console.log('entra aqui')
+        }
+    }else{
+        document.getElementById('error-contra').style.display="block";
+    }
+    
 }
 
-const calcularSubtotal = () =>{
-    let subtotal=0;
-    pedidoVisualizado.factura.productos.forEach(producto =>{
-        subtotal+=(producto.producto.precio*producto.cantidad);
-    });
-    return subtotal;
+const contrasena = () =>{
+    document.getElementById('error-contra').style.display="none";
 }
-
-const calcularISV = () =>{
-    let ISV=0;
-    ISV=0.15*calcularSubtotal();
-    return ISV;
-}
-
-const calcularTotal = () =>{
-    let total=0;
-    total= calcularSubtotal() + calcularISV();
-    return total;
-}
-
 //Funciones que se realizan antes de que el usuario interactue
-visualizarPedidos();
-renderizarMensajes();
-
+if (almacenado) {
+    idRepartidor=almacenado._id;
+    obtenerRepartidor();
+    visualizarPedidos();
+} else {
+    window.location.href = '/index.html';
+}
 
